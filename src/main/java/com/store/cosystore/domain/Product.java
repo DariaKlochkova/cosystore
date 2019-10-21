@@ -1,6 +1,7 @@
 package com.store.cosystore.domain;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,7 +12,7 @@ public class Product {
     private String article;
     private String name;
     private int price;
-    private int stockPrice;
+    private int promotionPrice;
     private String generalInf;
     private String description;
     private int count;
@@ -22,14 +23,14 @@ public class Product {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "product_id"))
-    private Set<String> images;
+    private List<String> images;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "product")
-    Set<Value> values;
+    List<Value> values;
 
     @ElementCollection(targetClass = Room.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "room", joinColumns = @JoinColumn(name = "product_id"))
@@ -43,7 +44,7 @@ public class Product {
     //private Action action;
 
 
-    public Product(Category category, String article, String name, int price, int count, String generalInf, String description, Color color, int height, int width, int depth, Set<String> images, Set<Room> rooms) {
+    public Product(Category category, String article, String name, int price, int count, String generalInf, String description, Color color, int height, int width, int depth, List<String> images, Set<Room> rooms) {
         this.category = category;
         this.article = article;
         this.name = name;
@@ -94,12 +95,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getStockPrice() {
-        return stockPrice;
+    public int getPromotionPrice() {
+        return promotionPrice;
     }
 
-    public void setStockPrice(int stockPrice) {
-        this.stockPrice = stockPrice;
+    public void setPromotionPrice(int promotionPrice) {
+        this.promotionPrice = promotionPrice;
     }
 
     public String getGeneralInf() {
@@ -118,11 +119,11 @@ public class Product {
         this.description = description;
     }
 
-    public Set<String> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(Set<String> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 
@@ -182,11 +183,11 @@ public class Product {
         this.color = color;
     }
 
-    public Set<Value> getValues() {
+    public List<Value> getValues() {
         return values;
     }
 
-    public void setValues(Set<Value> values) {
+    public void setValues(List<Value> values) {
         this.values = values;
     }
 }

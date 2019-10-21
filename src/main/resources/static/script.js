@@ -135,7 +135,7 @@ function openWindow(form){
     $("#"+form).css("display", "block");
     $("#"+form+" > div > div > input[type='text']").focus();
     $("input[name='oldGroupName']").val($(".selected-group").text());
-    $("input[name='editGroupName']").val($(".selected-group").text());
+    $("input[name='newGroupName']").val($(".selected-group").text());
     $("input[name='groupName']").val($(".selected-group").text());
     $("input[name='oldCategoryName']").val($(".selected-category").text());
     $("input[name='editCategoryName']").val($(".selected-category").text());

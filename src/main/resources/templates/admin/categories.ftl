@@ -25,9 +25,9 @@
            </div>
            <div class="col ml-3">
                <h4 class="editable">Характеристики товаров <span></span></h4>
-                   <#list categoryGroups as categoryGroup>
-                       <#list categoryGroup.getCategories() as category>
-                       <form action="/admin/categories/saveProperties${category.id}" method="post" id="category-${category.id}" style="display: none">
+               <#list categoryGroups as categoryGroup>
+                   <#list categoryGroup.getCategories() as category>
+                       <form action="/admin/categories/saveProperties/${category.id}" method="post" id="category-${category.id}" style="display: none">
                            <input type="hidden" name="categoryName" value="${category.name}">
                            <div class="propertyList">
                                <#list category.getProperties() as property>
@@ -56,8 +56,8 @@
                                </div>
                            </div>
                        </form>
-                       </#list>
                    </#list>
+               </#list>
            </div>
        </div>
 
@@ -74,7 +74,7 @@
                <div class="row mb-4">
                    <div class="col-10 pr-0">
                        <input type="hidden" name="oldGroupName">
-                       <input type="text" name="editGroupName" class="form-control">
+                       <input type="text" name="newGroupName" class="form-control">
                    </div>
                    <div class="col-2 pr-0 pl-1">
                        <div id="delete-icon" onclick="deleteItem('Group')"><i class="fas fa-trash-alt"></i></div>
@@ -109,7 +109,6 @@
            </form>
 
            <form action="/admin/categories/deleteCategory" method="post" id="deleteCategory">
-               <input type="hidden" name="groupName">
                <input type="hidden" name="categoryName">
                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
            </form>

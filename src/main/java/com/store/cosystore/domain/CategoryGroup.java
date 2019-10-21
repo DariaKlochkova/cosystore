@@ -1,7 +1,7 @@
 package com.store.cosystore.domain;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class CategoryGroup {
@@ -11,7 +11,7 @@ public class CategoryGroup {
     private String name;
 
     @OneToMany(mappedBy = "categoryGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Category> categories;
+    private List<Category> categories;
 
     public CategoryGroup(String name) {
         this.name = name;
@@ -36,11 +36,11 @@ public class CategoryGroup {
         this.name = name;
     }
 
-    public Set<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 }
