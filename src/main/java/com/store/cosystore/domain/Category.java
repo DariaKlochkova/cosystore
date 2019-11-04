@@ -1,6 +1,7 @@
 package com.store.cosystore.domain;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class Category {
     private CategoryGroup categoryGroup;
 
     @OneToMany(mappedBy = "category")
-    private List<Property> properties;
+    private Set<Property> properties;
 
     @OneToMany(mappedBy = "category")
     Set<Product> products;
@@ -53,11 +54,11 @@ public class Category {
         this.categoryGroup = categoryGroup;
     }
 
-    public List<Property> getProperties() {
+    public Set<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<Property> properties) {
+    public void setProperties(Set<Property> properties) {
         this.properties = properties;
     }
 

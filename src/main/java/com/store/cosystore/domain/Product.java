@@ -30,7 +30,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
-    List<Value> values;
+    private List<Value> values;
 
     @ElementCollection(targetClass = Room.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "room", joinColumns = @JoinColumn(name = "product_id"))
@@ -42,6 +42,7 @@ public class Product {
     //@ManyToOne(fetch = FetchType.EAGER)
     //@JoinColumn(name = "action_id")
     //private Action action;
+
 
 
     public Product(Category category, String article, String name, int price, int count, String generalInf, String description, Color color, int height, int width, int depth, List<String> images, Set<Room> rooms) {
@@ -61,6 +62,10 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public String getMainImg(){
+        return images.get(0);
     }
 
     public int getId() {

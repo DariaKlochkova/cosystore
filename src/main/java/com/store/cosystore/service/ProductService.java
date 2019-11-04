@@ -26,7 +26,15 @@ public class ProductService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public void addProduct(String category, String article, String name, int price, int count, String information, String description, MultipartFile[] files, String colorName, int height, int width, int depth, List<String> roomNames) throws IOException {
+    public Iterable<Product> productList(){
+        return productRepo.findAll();
+    }
+
+    public Product findProduct(int id){
+        return productRepo.findById(id);
+    }
+
+    public void addProduct(int categoryId, String article, String name, int price, int count, String information, String description, MultipartFile[] files, String colorName, int height, int width, int depth, List<String> roomNames) throws IOException {
         List<String> images = new ArrayList<>();
         for(int i = 0; i < files.length; i++){
             File uploadDir = new File(uploadPath);
@@ -43,7 +51,30 @@ public class ProductService {
             rooms.add(Room.valueOf(room));
         }
 
-        Product product = new Product(categoryRepo.findByName(category), article, name, price, count, information, description, Color.getByName(colorName), height, width, depth, images, rooms);
+        Product product = new Product(categoryRepo.findById(categoryId), article, name, price, count, information, description, Color.getByName(colorName), height, width, depth, images, rooms);
         productRepo.save(product);
     }
+
+//    public void addProduct(Product product, int categoryId, MultipartFile[] files, List<String> roomNames) throws IOException {
+//        List<String> images = new ArrayList<>();
+//        for(int i = 0; i < files.length; i++){
+//            File uploadDir = new File(uploadPath);
+//            if(!uploadDir.exists()){
+//                uploadDir.mkdir();
+//            }
+//            String fileName = UUID.randomUUID().toString() +"." + files[i].getOriginalFilename();
+//            files[i].transferTo(new File(uploadPath + "/" + fileName));
+//            images.add(fileName);
+//        }
+//
+//        Set<Room> rooms = new HashSet<>();
+//        for (String room : roomNames) {
+//            rooms.add(Room.valueOf(room));
+//        }
+//
+//        product.setCategory(categoryRepo.findById(categoryId));
+//        product.setImages(images);
+//        product.setRooms(rooms);
+//        productRepo.save(product);
+//    }
 }

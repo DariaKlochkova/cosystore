@@ -18,12 +18,6 @@ public class Property {
     @CollectionTable(name = "option", joinColumns = @JoinColumn(name = "property_id"))
     private List<String> possibleValues;
 
-    public Property(String name, List<String> possibleValues, Category category) {
-        this.name = name;
-        this.possibleValues = possibleValues;
-        this.category = category;
-    }
-
     public Property() {
     }
 

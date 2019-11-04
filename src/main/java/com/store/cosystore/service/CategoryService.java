@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CategoryService {
@@ -24,6 +26,14 @@ public class CategoryService {
 
     public Iterable<CategoryGroup> categoryGroupList(){
         return categoryGroupRepo.findAll();
+    }
+
+    public Category getCategory(int id){
+        return categoryRepo.findById(id);
+    }
+
+    public Iterable<Property> propertyList(int categoryId){
+        return propertyRepo.findByCategoryId(categoryId);
     }
 
     public void editGroup(String oldName, String newName){
@@ -63,15 +73,12 @@ public class CategoryService {
         categoryGroupRepo.save(cg);
     }
 
-    public void saveProperties(Category category, List<String> propertyName, List<String> propertyValues){
-        category.getProperties().clear();
-        propertyRepo.deleteAll(propertyRepo.findByCategory_Id(category.getId()));
-        for(int i = 0; i < propertyName.size(); i++){
-            Property p = new Property(propertyName.get(i), Arrays.asList(propertyValues.get(i).split(", ")), category);
+    public void saveProperties(Category category){
+        Category c = categoryRepo.findById(category.getId());
+        propertyRepo.deleteAll(propertyRepo.findByCategoryId(c.getId()));
+        for (Property p : category.getProperties()){
+            p.setCategory(c);
             propertyRepo.save(p);
-
-            category.getProperties().add(p);
         }
-        categoryRepo.save(category);
     }
 }
