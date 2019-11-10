@@ -25,7 +25,9 @@
         </nav>
     <#nested>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
         <script src="${lvl}static/script.js"></script>
+        <script src="${lvl}static/validation.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
@@ -38,7 +40,15 @@
     <div class="sidenav">
         <span>Товары</span>
         <a href="/admin/product" class="li">Добавить</a>
-        <a href="#" class="li">Редактировать</a>
+        <div class="li" id="edit">Редактировать
+            <div id="edit-window">
+                <form action="/admin/product/version" method="get" id="article-form">
+                    <label for="inputProductArticle">Введите артикул:</label>
+                    <input type="text" name="article" id="inputProductArticle" class="form-control mb-2 mt-1">
+                    <button class="btn" id="edit-find-btn" onclick="openProductEditor()">Найти</button>
+                </form>
+            </div>
+        </div>
         <a href="/admin/categories" style="margin-top: 10px;">Категории</a>
         <a href="#">Скидки</a>
         <a href="#">Акции</a>
@@ -47,6 +57,7 @@
         <img src="/img/home_cut.png" width="120px" style="position: fixed; left: 0; bottom: 0;">
     </div>
     <div class="main">
+        <div id="edit-fog"></div>
         <div class="admin-panel-h1">
             <h2>${header}</h2>
         </div>
@@ -74,7 +85,7 @@
                             <#list categoryGroups as categoryGroup>
                                 <div class="product-menu-categories">
                                     <#list categoryGroup.getCategories() as category>
-                                        <a class="product-menu-categories-item" href="/products">${category.name}</a>
+                                        <a class="product-menu-categories-item" href="/products?category=${category.id}">${category.name}</a>
                                     </#list>
                                 </div>
                             </#list>

@@ -28,6 +28,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     List<Cart> cart;
 
+    @OneToMany(mappedBy = "user")
+    List<Order> orders;
+
     public Integer getId() {
         return id;
     }

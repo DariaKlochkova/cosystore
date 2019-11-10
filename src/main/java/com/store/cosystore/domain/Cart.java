@@ -15,15 +15,15 @@ public class Cart {
     User user;
 
     @ManyToOne
-    @MapsId("product_id")
-    @JoinColumn(name = "product_id")
-    Product product;
+    @MapsId("product_version_id")
+    @JoinColumn(name = "product_version_id")
+    ProductVersion productVersion;
 
     private int count;
 
-    public Cart(User user, Product product, int count) {
-        id = new CartKey(user.getId(), product.getId());
-        this.product = product;
+    public Cart(User user, ProductVersion productVersion, int count) {
+        id = new CartKey(user.getId(), productVersion.getId());
+        this.productVersion = productVersion;
         this.user = user;
         this.count = count;
     }
@@ -47,12 +47,12 @@ public class Cart {
         this.user = user;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductVersion getProductVersion() {
+        return productVersion;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductVersion(ProductVersion product) {
+        this.productVersion = product;
     }
 
     public int getCount() {

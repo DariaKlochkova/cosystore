@@ -19,6 +19,7 @@ nav{
   	width: 100%;
   	background-color: #e0e0e0; 
   	padding: .25rem 1rem;
+	z-index: 10;
 }
 
 .upper-nav-item{
@@ -127,10 +128,15 @@ span[aria-expanded="true"],
 	font-weight: 600;
 }
 
-hr{
+hr.line{
 	width: 690px;
 	border-top: 1px solid #000;
 	margin-bottom: 3rem;
+}
+
+hr.bounder{
+	border-top: 1px solid #ced4da;
+	margin-bottom: 2rem;
 }
 
 .form-control::-webkit-input-placeholder {
@@ -365,6 +371,36 @@ input[type="search"]:focus #search{
 	border-color: #000;
 }
 
+#cart-sum{
+	font-size: 24px;
+	font-weight: 500;
+}
+
+#order-btn{
+	padding: .5rem 2rem;
+	width: 220px;
+	font-size: 1.2rem;
+	font-weight: 400;
+	border: 1px solid black;
+	min-width: fit-content;
+	text-align: center;
+	cursor: pointer;
+}
+#order-btn:hover{
+	background-color: #e7d03a;
+	border: 1px solid white;
+	color: black;
+}
+
+#order-form{
+	display: none;
+}
+
+#order-form label{
+	font-size: large;
+	line-height: 36px;
+}
+
 
 
 /* Панель администрирования */
@@ -393,27 +429,56 @@ input[type="search"]:focus #search{
 	top: 0;
 	left: 0;
 	background-color: #111;
-	overflow-x: hidden;
 	padding-top: 50px;
+	z-index: 7;
 }
 
 .sidenav a,
-.sidenav span {
+.sidenav span,
+.sidenav div{
 	padding: 6px 8px 6px 16px;
 	text-decoration: none;
 	font-size: 25px;
 	color: #e0e0e0;
 	display: block;
+	cursor: pointer;
 }
 
-.sidenav a.li{
+.sidenav a.li, .sidenav div.li{
 	font-size: 20px; 
 	margin-left: 20px;
 }
 
-.sidenav a:hover {
+.sidenav a:hover, .sidenav div:hover {
 	color: #000;
 	background-color: #e7d03a;
+}
+
+#edit-window{
+	display: none;
+	position: absolute;
+	padding: 0 20px;
+	left: 100%;
+	top: 141px;
+	width: 300px;
+	height: 150px;
+	background-color: #fff;
+}
+
+#edit-window label {
+	color: #212529;
+	font-size: 18px;
+}
+
+#edit-fog{
+	display: none;
+	position: fixed;
+	left: 200px;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #00000080;
+	z-index: 1;
 }
 
 #admin-category-group-menu{
@@ -448,7 +513,15 @@ input[type="search"]:focus #search{
 	font-size: 25px;
 }
 
-#btn-add:hover{
+#btn-add-version{
+	line-height: 1.8;
+	padding: 0 40px 5px;
+	background-color: #ced4da;
+	border-radius: 0;
+	font-size: 25px;
+}
+
+#btn-add:hover, #btn-add-version:hover{
 	color: black;
 }
 
@@ -516,7 +589,7 @@ img.thumb{
 	max-height: 100%;
 }
 
-#inputColor{
+#inputColor, .inputColor{
 	height: 50%;
     background-color: black;
     background-size: 200px;
@@ -758,15 +831,20 @@ h4 span{
 	transition: none;
 }
 
-#win-save-btn{
+#win-save-btn, #edit-find-btn{
 	background-color: #e7d03a;
 	border: 1px solid white;
 	font-size: 17px;
 	padding: .5rem 1rem;
 	transition: none;
 }
-#win-save-btn:hover{
+#win-save-btn:hover, #edit-find-btn:hover{
 	color: black;
+}
+
+#edit-find-btn {
+	margin-left: 160px;
+	width: 100px;
 }
 
 .input-property-small{

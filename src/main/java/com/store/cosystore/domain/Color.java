@@ -1,5 +1,7 @@
 package com.store.cosystore.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Color {
     BLACK("Чёрный", "#000000"),
     WHITE("Белый", "#ffffff"),
@@ -33,6 +35,7 @@ public enum Color {
         this.code = code;
     }
 
+    @JsonValue
     public String getName() {
         return name;
     }

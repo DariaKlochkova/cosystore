@@ -9,12 +9,12 @@ public class CartKey implements Serializable {
     @Column(name = "user_id")
     int userId;
 
-    @Column(name = "product_id")
-    int productId;
+    @Column(name = "product_version_id")
+    int productVersionId;
 
-    public CartKey(int userId, int productId) {
+    public CartKey(int userId, int productVersionId) {
         this.userId = userId;
-        this.productId = productId;
+        this.productVersionId = productVersionId;
     }
 
     public CartKey() {
@@ -28,11 +28,11 @@ public class CartKey implements Serializable {
         this.userId = userId;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProductVersionIdId() {
+        return productVersionId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProductVersionId(int productVersionId) {
+        this.productVersionId = productVersionId;
     }
 }

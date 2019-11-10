@@ -7,7 +7,7 @@
             <div class="col-3">
                <label for="inputCategory">Категория</label>
                <input type="text" value="${selectedCategory.name}" id="inputCategory" class="form-control" onclick="showDropdown()" readonly>
-               <input type="hidden" name="categoryId" id="inputCategoryId">
+               <input type="hidden" name="categoryId" id="categoryId" value="${selectedCategory.id}">
                <div class="dropdown-menu category-group-menu" id="admin-category-group-menu" aria-labelledby="inputCategory">
                   <#list categoryGroups as categoryGroup>
                      <span class="dropdown-item">${categoryGroup.getName()}</span>
@@ -24,8 +24,7 @@
          </div>
       </form>
 
-      <form action="/admin/product" method="post" name="add" enctype="multipart/form-data">
-         <input type="hidden" name="categoryId" value="${selectedCategory.id}">
+      <div id="productForm">
          <div class="row mb-4">
             <div class="col-2">
                <label for="inputArticle">Артикул</label>
@@ -58,14 +57,16 @@
          </div>
          <div class="row">
             <div class="col-10">
-               <label for="file-input">Изображения</label>
+               <label>Изображения</label>
             </div>
             <div class="col-2">
                <label for="checkColor">Цвет</label>
             </div>
          </div>
          <div class="row mb-4">
+
             <div class="col-10" id="images">
+               <form method="post" enctype="multipart/form-data" id="imagesForm">
                <div class="custom-file" id="file-input-div">
                   <input id="file-input" type="file" onchange="change(this)">
                   <output id="list"></output>
@@ -74,12 +75,13 @@
                   </label>
                </div>
                <small class="form-text text-muted mt-0" style="width: 8rem; text-align: center;">Главное фото</small>
+               </form>
             </div>
             <div class="col-2">
                <div style="height: 6rem">
                   <div id="inputColor" class="form-control" onclick="showColorDropdown()"></div>
                   <div class="row align-items-end mx-0" style="height: 50%;">
-                     <input type="text" name="colorName" id="inputColorName" class="form-control" value="Черный" onclick="showColorDropdown()" readonly>
+                     <input type="text" name="colorName" id="inputColorName" class="form-control" value="Чёрный" onclick="showColorDropdown()" readonly>
                      <div class="color-menu" style="display: none">
                         <#list colors as color>
                         <div class="color-menu-item">
@@ -112,7 +114,7 @@
          </div>
          <div class="row">
             <div class="col-12">
-               <label for="file-input" id="rooms">Комнаты</label>
+               <label id="rooms">Комнаты</label>
             </div>
          </div>
          <div class="row mb-2">
@@ -159,10 +161,11 @@
 
          <input type="hidden" name="_csrf" value="${_csrf.token}" />
          <div class="row justify-content-end">
-            <button type="submit" class="btn btn-lg mr-3" id="btn-add" onclick="saveProduct()">Добавить</button>
+            <div class="btn btn-lg mr-3" id="btn-add-version" onclick="validateProduct('add')">Добавить версию</div>
+            <div class="btn btn-lg mr-3" id="btn-add" onclick="validateProduct('save')">Сохранить</div>
          </div>
 
-      </form>
+      </div>
 
 
    </@c.admin>
