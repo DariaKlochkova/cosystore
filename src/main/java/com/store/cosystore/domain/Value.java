@@ -1,7 +1,6 @@
 package com.store.cosystore.domain;
 
 import com.store.cosystore.domain.keys.ValueKey;
-
 import javax.persistence.*;
 
 @Entity

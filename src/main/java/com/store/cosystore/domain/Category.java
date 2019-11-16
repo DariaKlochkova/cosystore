@@ -1,6 +1,8 @@
 package com.store.cosystore.domain;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity

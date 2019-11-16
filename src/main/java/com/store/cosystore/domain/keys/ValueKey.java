@@ -7,10 +7,13 @@ import java.io.Serializable;
 @Embeddable
 public class ValueKey implements Serializable {
     @Column(name = "product_id")
-    int productId;
+    private int productId;
 
     @Column(name = "property_id")
-    int propertyId;
+    private int propertyId;
+
+    public ValueKey() {
+    }
 
     public int getProductId() {
         return productId;
