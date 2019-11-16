@@ -88,4 +88,11 @@ public class ProductController {
         return product.getId();
     }
 
+    @DeleteMapping("editor")
+    @ResponseBody
+    public String deleteProduct(@RequestParam int productVersionId){
+        productService.deleteProduct(productVersionId);
+        return "Товар удалён из каталога";
+    }
+
 }

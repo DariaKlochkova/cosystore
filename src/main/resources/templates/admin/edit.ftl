@@ -2,6 +2,7 @@
 <@c.page "../../">
    <@c.admin "Редактирование товара">
 
+      <#if productVersion??>
       <form action="/admin/product" method="get" id="form-category">
          <div class="row mb-4">
             <div class="col-2">
@@ -160,14 +161,20 @@
             </div>
          </div>
 
-         <div class="property-list">
+         <div class="property-list mb-4">
             <#list productVersion.product.getValues() as value>
                <div class="row mb-4">
-                  <div class="col-3" style="text-align: right">
+                  <div class="col-auto" style="text-align: right">
                      <label for="inputPropertyValue" class="col-form-label">${value.property.name}</label>
                   </div>
-                  <div class="col-9">
-                     <input type="text" name="propertyValue" id="inputPropertyValue" class="form-control" onclick="showDropdown()" value="${value.value}">
+                  <div class="col">
+                     <input type="hidden" value="${value.property.id}">
+                     <input type="text" name="propertyValue" class="form-control input-property-value" value="${value.value}" onclick="showDropdown()" readonly>
+                     <div class="dropdown-menu value-menu">
+                        <#list value.property.possibleValues as value>
+                           <span class="dropdown-item value-item">${value}</span>
+                        </#list>
+                     </div>
                   </div>
                </div>
             </#list>
@@ -175,14 +182,28 @@
 
          <input type="hidden" name="_csrf" value="${_csrf.token}" />
          <div class="row justify-content-end">
+            <div class="btn btn-lg mr-auto ml-3" id="btn-delete" onclick="deleteDialogOpen()">Удалить</div>
             <div class="btn btn-lg mr-3" id="btn-add-version" onclick="openVersionsEditor(${productVersion.product.id})">Добавить версию</div>
             <div class="btn btn-lg mr-3" id="btn-add" onclick="validateProduct('edit')">Сохранить</div>
          </div>
 
       </div>
-
+      <#else>
+         <p class="empty">Товар с таким артикулом не найден</p>
+      </#if>
 
    </@c.admin>
+   <div id="fog">
+      <div id="window">
+         <span style="font-size: large">
+            Товар будет безвозвратно удалён из каталога. Продолжить?
+         </span>
+         <div class="row justify-content-between" style="margin-top: 2.5rem">
+            <div class="btn ml-3" id="win-delete-btn" onclick="deleteProduct()">Да</div>
+            <div class="btn mr-3" id="win-save-btn" onclick="deleteDialogClose()">Отмена</div>
+         </div>
+      </div>
+   </div>
 </@c.page>
 
 <script>
@@ -190,4 +211,5 @@
       $("#"+$(this).val()).click();
       $(this).remove();
    })
+   deleteSpaces();
 </script>

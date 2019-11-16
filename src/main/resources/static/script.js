@@ -155,6 +155,21 @@ function rgb_to_hex(color){
 	return (rgb && rgb.length === 4) ? "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : color;
 }
 
+$(".input-property-value").click(function (e) {
+    $(this).next().css("display", "block");
+})
+
+$(".value-item").click(function (e) {
+    $(this).parent().prev().val($(this).text());
+})
+
+$(document).click(function (e) {
+    var div = $(".input-property-value");
+    if (!div.is(e.target) && div.has(e.target).length === 0) {
+        $(".value-menu").css("display", "none");
+    }
+})
+
 
 // Редактор категорий
 
@@ -372,6 +387,34 @@ function openOrderForm() {
     $("#order-btn").text("Заказать");
     $("#order-btn").attr("style", "background-color: #e7d03a; border: 1px solid white; color: black;");
     $("#order-btn").attr("onclick", "sendOrder()");
+}
+
+function deleteSpaces() {
+    var reg = new RegExp(String.fromCharCode(160), "g");
+    $("input[type='number']").each(function () {
+        $(this).val($(this).attr("value").replace(reg,''));
+    })
+}
+
+
+function deleteDialogOpen() {
+    $("#fog").css("display", "block");
+    $("#window").css("display", "block");
+}
+function deleteDialogClose() {
+    $("#fog").css("display", "none");
+    $("#window").css("display", "none");
+}
+function deleteProduct() {
+    $.ajax({
+        url: '',
+        data: {productVersionId : $("#productVersionId").val()},
+        method: 'delete',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    deleteDialogClose();
 }
 
 

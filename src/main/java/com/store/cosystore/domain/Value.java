@@ -19,7 +19,7 @@ public class Value {
     @JoinColumn(name = "property_id")
     Property property;
 
-    private int value;
+    private String value;
 
     public ValueKey getId() {
         return id;
@@ -45,11 +45,11 @@ public class Value {
         this.property = property;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(String value) {
         this.value = value;
     }
 }

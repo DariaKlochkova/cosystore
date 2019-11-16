@@ -27,6 +27,12 @@ function validateProduct(act){
         valid = false;
         alert("Выберите хотя бы одну комнату");
     }
+    $('input[name="propertyValue"]').each(function () {
+        if($(this).val() == ""){
+            valid = false;
+            alert("Введите значение свойства");
+        }
+    })
 
     if(valid){
         $.ajax(saveProductRequest(act));
@@ -65,6 +71,7 @@ function saveProductRequest(act){
         depth : $("#inputDepth").val(),
         categoryId : $("#categoryId").val(),
         rooms : [],
+        values : [],
         productVersions : [
             {
                 id : $("#productVersionId").val(),
@@ -77,6 +84,12 @@ function saveProductRequest(act){
     };
     $('input[name="room"]').each(function () {
         product.rooms.push($(this).val());
+    });
+    $('input[name="propertyValue"]').each(function () {
+        product.values.push({
+            id : { propertyId : $(this).prev().val() },
+            value : $(this).val()
+        });
     });
 
     var imgForm = new FormData($('#imagesForm').get(0));
