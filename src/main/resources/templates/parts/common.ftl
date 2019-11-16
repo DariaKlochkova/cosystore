@@ -21,7 +21,11 @@
             </a>
             <a class="upper-nav-item" href="#"><i class="far fa-heart"></i> Список желаний</a>
             <a class="upper-nav-item" href="/cart"><i class="fas fa-shopping-basket"></i> Корзина</a>
-            <a class="upper-nav-item" href="#" style="margin-left: 30px; color: #666;">Выйти</a>
+            <#if user??>
+                <a class="upper-nav-item" href="/logout" style="margin-left: 30px; color: #666;">Выйти</a>
+            <#else>
+                <a class="upper-nav-item" href="/login" style="margin-left: 30px; color: #666;">Войти</a>
+            </#if>
         </nav>
     <#nested>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -93,10 +97,13 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown" style="margin-right: 20px;">
-               <span class="nav-link dropdown-toggle" id="navDrop2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Комнаты
-               </span>
-                    <div class="dropdown-menu" aria-labelledby="navDrop2">
+                    <div class="nav-link dropdown-toggle" id="product-menu-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Комнаты
+                        <div id="room-menu" style="display: none">
+                            <#list rooms as room>
+                                <div class="room-item">${room.getName()}</div>
+                            </#list>
+                        </div>
                     </div>
                 </li>
                 <li class="nav-item">

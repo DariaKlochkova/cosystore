@@ -26,6 +26,12 @@ nav{
 	margin: 0 15px;
 }
 
+.empty{
+	text-align: center;
+	font-size: x-large;
+	color: #bbbbbb;
+}
+
 a, 
 a:hover{
 	color: #000;
