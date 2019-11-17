@@ -182,7 +182,7 @@
 
          <input type="hidden" name="_csrf" value="${_csrf.token}" />
          <div class="row justify-content-end">
-            <div class="btn btn-lg mr-auto ml-3" id="btn-delete" onclick="deleteDialogOpen()">Удалить</div>
+            <div class="btn btn-lg mr-auto ml-3" id="btn-delete" onclick="openDialog()">Удалить</div>
             <div class="btn btn-lg mr-3" id="btn-add-version" onclick="openVersionsEditor(${productVersion.product.id})">Добавить версию</div>
             <div class="btn btn-lg mr-3" id="btn-add" onclick="validateProduct('edit')">Сохранить</div>
          </div>
@@ -200,7 +200,7 @@
          </span>
          <div class="row justify-content-between" style="margin-top: 2.5rem">
             <div class="btn ml-3" id="win-delete-btn" onclick="deleteProduct()">Да</div>
-            <div class="btn mr-3" id="win-save-btn" onclick="deleteDialogClose()">Отмена</div>
+            <div class="btn mr-3" id="win-save-btn" onclick="closeDialog()">Отмена</div>
          </div>
       </div>
    </div>

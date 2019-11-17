@@ -28,9 +28,9 @@ public class CartController {
     @Autowired
     private CartService cartService;
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
     @Autowired
-    MailSender mailSender;
+    private MailSender mailSender;
 
     @GetMapping
     public String products(@AuthenticationPrincipal User user, Model model){

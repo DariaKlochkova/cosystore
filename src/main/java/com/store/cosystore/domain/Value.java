@@ -12,12 +12,12 @@ public class Value {
     @ManyToOne
     @MapsId("product_id")
     @JoinColumn(name = "product_id")
-    Product product;
+    private Product product;
 
     @ManyToOne
     @MapsId("property_id")
     @JoinColumn(name = "property_id")
-    Property property;
+    private Property property;
 
     private String value;
 

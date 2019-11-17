@@ -14,11 +14,21 @@
     </head>
     <body>
         <nav id="lk" class="navbar navbar-expand-lg">
-            <a id="userName" class="mr-auto" href="#">
-                <#if user??>
+            <#if user??>
+                <a id="userName" class="mr-auto" href="#">
                     <i class="far fa-user"></i> ${user.fullname}
-                </#if>
-            </a>
+                </a>
+            </#if>
+            <#if user.hasAdminRole()>
+                <a id="admin-btn" href="/admin/product">
+                    Администрирование
+                </a>
+            </#if>
+            <#if user.hasDeliveryRole()>
+                <a id="admin-btn" href="/orders">
+                    Заказы
+                </a>
+            </#if>
             <a class="upper-nav-item" href="#"><i class="far fa-heart"></i> Список желаний</a>
             <a class="upper-nav-item" href="/cart"><i class="fas fa-shopping-basket"></i> Корзина</a>
             <#if user??>
@@ -67,6 +77,28 @@
         </div>
         <div class="admin-panel">
         <#nested>
+        </div>
+    </div>
+</#macro>
+
+
+<#macro delivery header>
+    <div class="sidenav">
+        <span>Заказы</span>
+        <a href="/admin/product" class="li">New</a>
+        <a href="/admin/product" class="li">Completing</a>
+        <a href="/admin/product" class="li">Transit</a>
+        <a href="/admin/product" class="li">Ready</a>
+        <a href="/admin/product" class="li">Completed</a>
+        <a href="/admin/product" class="li">Canceled</a>
+        <img src="/img/home_cut.png" width="120px" style="position: fixed; left: 0; bottom: 0;">
+    </div>
+    <div class="main">
+        <div class="admin-panel-h1">
+            <h2>${header}</h2>
+        </div>
+        <div class="admin-panel">
+            <#nested>
         </div>
     </div>
 </#macro>

@@ -32,6 +32,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     List<Order> orders;
 
+    public boolean hasAdminRole(){
+        return roles.contains(Role.ADMIN);
+    }
+
+    public boolean hasDeliveryRole(){
+        return roles.contains(Role.DELIVERY);
+    }
+
     public Integer getId() {
         return id;
     }

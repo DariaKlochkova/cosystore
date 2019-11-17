@@ -29,6 +29,13 @@ public class ProductVersion {
         return images.get(0);
     }
 
+    public boolean decreaseCount(int c){
+        if (c > count)
+            return false;
+        count -= c;
+        return true;
+    }
+
     public int getId() {
         return id;
     }

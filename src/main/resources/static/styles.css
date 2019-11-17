@@ -38,6 +38,17 @@ a:hover{
 	text-decoration: none;
 }
 
+#admin-btn{
+	position: fixed;
+	left: 200px;
+	padding: 0 10px;
+	line-height: 31px;
+}
+#admin-btn:hover{
+	background-color: #111111;
+	color: #fff;
+}
+
 .navbar{
 	position: absolute;
 	top: 30px;
@@ -891,3 +902,54 @@ h4 span{
 	cursor: pointer;
 }
 
+
+.order-row{
+	display: grid;
+	grid-template-columns: 1fr 2fr 6fr 3fr 2fr 2.5fr 1.5fr;
+	grid-template-rows: 1fr;
+	line-height: 50px;
+}
+.order-row:not(.table-header):hover{
+	background-color: #efefef;
+}
+
+.table-header{
+	font-weight: bold;
+}
+
+#order-page-content{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	grid-gap: 50px;
+}
+
+#order-positions{
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+	grid-auto-rows: 0.15fr;
+	text-align: center;
+	font-size: larger;
+}
+
+#order-positions a:hover{
+	text-decoration: underline;
+}
+
+.order-header{
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 16px;
+}
+
+#recipient-contacts, #order-progress{
+	font-size: 18px;
+}
+#recipient-contacts > span, #order-progress > span{
+	font-weight: 300;
+}
+
+#order-progress{
+	text-align: center;
+}

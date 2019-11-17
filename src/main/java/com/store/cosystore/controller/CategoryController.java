@@ -1,4 +1,4 @@
-package com.store.cosystore.controller.admin;
+package com.store.cosystore.controller;
 
 import com.store.cosystore.domain.Category;
 import com.store.cosystore.domain.User;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/categories")
-@PreAuthorize("hasAnyAuthority('ADMIN')")
 public class CategoryController {
 
     @Autowired

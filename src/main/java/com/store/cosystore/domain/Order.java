@@ -8,7 +8,7 @@ import java.util.Set;
 @Table(name="orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private LocalDate date;
     private int cost;

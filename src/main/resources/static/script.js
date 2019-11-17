@@ -342,7 +342,7 @@ function deleteProductFromCart(productVersionId){
         headers: {
             'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
         },
-        success: function(response){
+        success: function(){
             location.reload();
         }
     });
@@ -397,11 +397,11 @@ function deleteSpaces() {
 }
 
 
-function deleteDialogOpen() {
+function openDialog() {
     $("#fog").css("display", "block");
     $("#window").css("display", "block");
 }
-function deleteDialogClose() {
+function closeDialog() {
     $("#fog").css("display", "none");
     $("#window").css("display", "none");
 }
@@ -414,7 +414,26 @@ function deleteProduct() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    deleteDialogClose();
+    closeDialog();
+}
+
+function changeOrderStatus(statusCode) {
+    $.ajax({
+        url: '',
+        data: {newStatus : ++statusCode},
+        method: 'put',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response){
+            $("#new-order-status").text(response);
+            openDialog();
+        }
+    });
+}
+
+function reload() {
+    location.reload();
 }
 
 

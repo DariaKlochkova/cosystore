@@ -1,4 +1,4 @@
-package com.store.cosystore.controller.admin;
+package com.store.cosystore.controller;
 
 import com.store.cosystore.domain.Color;
 import com.store.cosystore.domain.Product;
@@ -18,7 +18,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/product")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class ProductController {
 
     @Autowired
