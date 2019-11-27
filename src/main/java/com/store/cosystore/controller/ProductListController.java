@@ -5,6 +5,7 @@ import com.store.cosystore.domain.User;
 import com.store.cosystore.service.CartService;
 import com.store.cosystore.service.CategoryService;
 import com.store.cosystore.service.ProductService;
+import com.store.cosystore.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,18 +25,24 @@ public class ProductListController {
 
 
     @GetMapping
-    public String products(@AuthenticationPrincipal User user, @RequestParam int category, Model model){
+    public String productListView(@AuthenticationPrincipal User user,
+                                  @RequestParam int category, Model model){
         model.addAttribute("user", user);
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
+        model.addAttribute("header", categoryService.getCategory(category).getName());
         model.addAttribute("productVersions", productService.productVersionList(category));
         return "products";
     }
 
-    @PostMapping
-    @ResponseBody
-    public String products(@RequestParam int userId, @RequestParam int productId){
-        cartService.addProduct(userId, productId);
-        return "Товар добавлен в корзину";
+    @GetMapping("{productId}")
+    public String productsPage(@AuthenticationPrincipal User user,
+                               @PathVariable int productId, Model model){
+        model.addAttribute("user", user);
+        model.addAttribute("categoryGroups", categoryService.categoryGroupList());
+        model.addAttribute("rooms", Room.values());
+        model.addAttribute("productVersion", productService.productVersionById(productId));
+        return "productPage";
     }
+
 }

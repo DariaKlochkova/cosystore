@@ -1,5 +1,5 @@
 <#import "../parts/common.ftl" as c>
-<@c.page "../../">
+<@c.page>
    <@c.admin "Добавление версии товара">
 
       <#list productVersions as productVersion>
@@ -110,6 +110,6 @@
          <div class="btn btn-lg mr-3" id="btn-add" onclick="validateProductVersion()">Сохранить версию</div>
       </div>
 
-
-   </@c.admin>
+      </@c.admin>
+   <@c.script />
 </@c.page>

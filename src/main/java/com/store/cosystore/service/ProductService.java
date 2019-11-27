@@ -40,8 +40,12 @@ public class ProductService {
                 .collect(Collectors.toSet());
     }
 
-    public ProductVersion getProductVersionByArticle(String article){
+    public ProductVersion productVersionByArticle(String article){
         return productVersionRepo.findByArticle(article);
+    }
+
+    public ProductVersion productVersionById(int productId) {
+        return productVersionRepo.findById(productId);
     }
 
     public Set<ProductVersion> versionsOfProduct(int productId){
@@ -94,7 +98,7 @@ public class ProductService {
     public void deleteProduct(int productVersionId) {
         ProductVersion pv = productVersionRepo.findById(productVersionId);
         productVersionRepo.deleteById(productVersionId);
-        if (pv.getProduct().getProductVersions().size() == 1)
+        if (pv.getProduct().getProductVersions().size() == 0)
             productRepo.deleteById(pv.getProduct().getId());
     }
 }

@@ -1,6 +1,7 @@
 package com.store.cosystore.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,14 +27,34 @@ public class ProductVersion {
     }
 
     public String getMainImg(){
-        return images.get(0);
+        return images.isEmpty() ? "" : images.get(0);
     }
 
-    public boolean decreaseCount(int c){
+    public void decreaseCount(int c){
         if (c > count)
+            count -= c;
+    }
+
+    public void increaseCount(int c){
+        count += c;
+    }
+
+    public Set<ProductVersion> getOtherVersions(){
+        Set<ProductVersion> otherVersions = new HashSet<>();
+        for (ProductVersion pv : product.getProductVersions()){
+            if(id != pv.getId())
+                otherVersions.add(pv);
+        }
+        return otherVersions;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
             return false;
-        count -= c;
-        return true;
+        }
+        ProductVersion productVersion = (ProductVersion)obj;
+        return productVersion.getId() == id;
     }
 
     public int getId() {

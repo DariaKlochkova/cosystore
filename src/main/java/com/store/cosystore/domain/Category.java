@@ -16,11 +16,11 @@ public class Category {
     @JoinColumn(name = "group_id")
     private CategoryGroup categoryGroup;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<Property> properties;
 
     @OneToMany(mappedBy = "category")
-    Set<Product> products;
+    private Set<Product> products;
 
     public Category(String name, CategoryGroup categoryGroup) {
         this.name = name;

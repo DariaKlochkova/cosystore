@@ -9,6 +9,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     private String name;
     private int price;
     private int promotionPrice;
@@ -33,7 +34,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Set<Room> rooms;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private Set<ProductVersion> productVersions;
 
     //@ManyToOne(fetch = FetchType.EAGER)

@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,11 +27,20 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
-    List<Cart> cart;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "wish",
+               joinColumns = @JoinColumn(name = "user_id"),
+               inverseJoinColumns = @JoinColumn(name = "product_version_id"))
+    private List<ProductVersion> wishList;
 
     @OneToMany(mappedBy = "user")
-    List<Order> orders;
+    private List<Order> orders;
+
+    public User() {}
+
+    public boolean hasUserRole(){
+        return roles.contains(Role.USER);
+    }
 
     public boolean hasAdminRole(){
         return roles.contains(Role.ADMIN);
@@ -127,5 +137,13 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<ProductVersion> getWishList() {
+        return wishList;
+    }
+
+    public void setWishList(List<ProductVersion> wishList) {
+        this.wishList = wishList;
     }
 }

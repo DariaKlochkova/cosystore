@@ -1,5 +1,5 @@
 <#import "../parts/common.ftl" as c>
-<@c.page "../../">
+<@c.page>
    <@c.admin "Редактирование товара">
 
       <#if productVersion??>
@@ -204,12 +204,13 @@
          </div>
       </div>
    </div>
+   <@c.script>
+      <script>
+         $(".selectedRoomInput").each(function () {
+            $("#"+$(this).val()).click();
+            $(this).remove();
+         })
+         deleteSpaces();
+      </script>
+   </@c.script>
 </@c.page>
-
-<script>
-   $(".selectedRoomInput").each(function () {
-      $("#"+$(this).val()).click();
-      $(this).remove();
-   })
-   deleteSpaces();
-</script>

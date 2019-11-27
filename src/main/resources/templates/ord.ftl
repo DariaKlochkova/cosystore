@@ -1,5 +1,5 @@
 <#import "parts/common.ftl" as c>
-<@c.page "../">
+<@c.page>
    <@c.delivery "Обработка заказов">
        <div id="title">
            <h2>Заказ №${order.id}</h2>
@@ -54,15 +54,17 @@
             </div>
         </div>
     </div>
+    <@c.script>
+        <script>
+            switch (${order.status.getCode()}) {
+                case 0 : $("#btn-add").text("Принять заказ");
+                    break;
+                case 1 : $("#btn-add").text("Заказ отправлен");
+                    break;
+                case 2 : $("#btn-add").text("Готов к выдаче");
+                    break;
+                default : $("#btn-add").remove();
+            }
+        </script>
+    </@c.script>
 </@c.page>
-<script>
-    switch (${order.status.getCode()}) {
-        case 0 : $("#btn-add").text("Принять заказ");
-        break;
-        case 1 : $("#btn-add").text("Заказ отправлен");
-            break;
-        case 2 : $("#btn-add").text("Готов к выдаче");
-            break;
-        default : $("#btn-add").remove();
-    }
-</script>

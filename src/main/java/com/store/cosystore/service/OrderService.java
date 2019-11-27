@@ -1,5 +1,6 @@
 package com.store.cosystore.service;
 
+import com.itextpdf.text.DocumentException;
 import com.store.cosystore.domain.*;
 import com.store.cosystore.repos.OrderPositionRepo;
 import com.store.cosystore.repos.OrderRepo;
@@ -7,6 +8,8 @@ import com.store.cosystore.repos.ProductVersionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.LinkedHashSet;
 
 @Service
@@ -18,22 +21,30 @@ public class OrderService {
     OrderPositionRepo orderPositionRepo;
     @Autowired
     ProductVersionRepo productVersionRepo;
+    @Autowired
+    private MailSender mailSender;
 
-    public Order addOrder(Order order, User user){
+    public Order addOrder(Order order, User user) {
         if (user != null)
             order.setUser(user);
         Order ord = orderRepo.save(order);
-        ProductVersion productVersion;
         for (OrderPosition op : order.getOrderPositions()){
-            op.getId().setOrder(ord.getId());
+            op.getId()
+                    .setOrder(ord.getId());
             op.setOrder(ord);
-            productVersion = productVersionRepo.findById(op.getId().getProductVersion());
+            ProductVersion productVersion = productVersionRepo.findById(op.getId().getProductVersion());
             op.setProductVersion(productVersion);
             productVersion.decreaseCount(op.getCount());
             productVersionRepo.save(productVersion);
             orderPositionRepo.save(op);
         }
-        return orderRepo.findById(ord.getId());
+        ord = orderRepo.findById(ord.getId());
+        try {
+            mailSender.sendWithCheck(ord);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ord;
     }
 
     public LinkedHashSet<Order> getOrders(){

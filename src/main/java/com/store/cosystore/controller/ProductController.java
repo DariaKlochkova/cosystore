@@ -75,7 +75,7 @@ public class ProductController {
                                   Model model){
         model.addAttribute("user", user);
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
-        model.addAttribute("productVersion", productService.getProductVersionByArticle(article));
+        model.addAttribute("productVersion", productService.productVersionByArticle(article));
         model.addAttribute("colors", Color.values());
         return "admin/edit";
     }

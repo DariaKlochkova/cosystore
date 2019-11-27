@@ -1,5 +1,5 @@
 <#import "parts/common.ftl" as c>
-<@c.page "../">
+<@c.page>
    <@c.delivery "Обработка заказов">
        <#list orders>
        <div id="orders-table">
@@ -43,9 +43,5 @@
        </#list>
 
    </@c.delivery>
+   <@c.script />
 </@c.page>
-<script>
-    function orderPage(id) {
-        document.location.href = '/orders/' + id;
-    }
-</script>

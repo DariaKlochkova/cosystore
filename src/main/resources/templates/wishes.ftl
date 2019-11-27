@@ -4,12 +4,13 @@
 
     <div id="content" class="container">
         <div id="title">
-            <h2>${header}</h2>
+            <h2>Список желаний</h2>
             <hr class="mb-5" style="border-color: #ccc" />
         </div>
-        <div class="goods mb-5">
-            <#list productVersions as productVersion>
-                <div>
+
+        <#list wishList>
+            <div class="wishes mb-5">
+                <#items as productVersion>
                 <div class="card">
                     <input class="pv-id" type="hidden" value="${productVersion.id}" />
                     <div class="card-img-holder">
@@ -18,28 +19,25 @@
                     <div class="card-body">
                         <h5 class="card-title uppercase">${productVersion.product.name}</h5>
                         <p class="card-text">${productVersion.product.generalInf}</p>
-                        <h2 class="price">${productVersion.product.price} ₽</h2>
+                        <h4 class="price" style="font-weight: 500">${productVersion.product.price} ₽</h4>
                         <div class="row product-btns">
-                            <div class="col-auto pr-2 card-btn">
-                                <div class="wish-btn" onclick="productToWishes(${productVersion.id})">
-                                        <span class="h-icon">
-                                            <i class="far fa-heart"></i><br/>
-                                            <i class='fas fa-heart' style="color: #d72828;"></i>
-                                        </span>
-                                </div>
+                            <div class="col-auto pr-1 card-btn" onclick="deleteProductFromWishes(${productVersion.id})">
+                                <div class="wish-btn-mini"><i class="far fa-trash-alt"></i></span></div>
                             </div>
                             <div class="col pl-2 card-btn">
-                                <div class="basket-btn" onclick="productToCart(${productVersion.id})">
-                                    <span class="b-icon"><i class="fas fa-shopping-basket"></i></span><br>В корзину
+                                <div class="basket-btn" onclick="productToCart(${productVersion.id})" style="font-size: 17px">
+                                    <span style="line-height: 36px"><i class="fas fa-shopping-basket"></i></span> В корзину
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
-            </#list>
+                </#items>
+            </div>
+        <#else>
+            <p class="empty">Ваш список желаний пуст</p>
+        </#list>
 
-        </div>
     </div>
     <div id="fog">
         <div id="window">

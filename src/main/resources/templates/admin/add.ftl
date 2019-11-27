@@ -1,5 +1,5 @@
 <#import "../parts/common.ftl" as c>
-<@c.page "../">
+<@c.page>
    <@c.admin "Добавление товара">
 
       <form action="/admin/product" method="get" id="form-category">
@@ -172,6 +172,6 @@
 
       </div>
 
-
    </@c.admin>
+   <@c.script />
 </@c.page>
