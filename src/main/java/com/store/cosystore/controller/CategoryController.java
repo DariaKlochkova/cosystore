@@ -1,22 +1,22 @@
-package com.store.cosystore.controller.admin;
+package com.store.cosystore.controller;
 
 import com.store.cosystore.domain.Category;
 import com.store.cosystore.domain.User;
 import com.store.cosystore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "/admin/categories", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/admin/categories")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-
 
     @GetMapping
     public String categories(@AuthenticationPrincipal User user,

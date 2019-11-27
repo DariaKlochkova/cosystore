@@ -8,11 +8,12 @@ import java.util.Set;
 @Table(name="orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private LocalDate date;
     private int cost;
     private String address;
+    private String email;
     private String recipient;
     private String phoneNumber;
 
@@ -76,6 +77,14 @@ public class Order {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<OrderPosition> getOrderPositions() {

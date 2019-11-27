@@ -155,6 +155,21 @@ function rgb_to_hex(color){
 	return (rgb && rgb.length === 4) ? "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : color;
 }
 
+$(".input-property-value").click(function (e) {
+    $(this).next().css("display", "block");
+})
+
+$(".value-item").click(function (e) {
+    $(this).parent().prev().val($(this).text());
+})
+
+$(document).click(function (e) {
+    var div = $(".input-property-value");
+    if (!div.is(e.target) && div.has(e.target).length === 0) {
+        $(".value-menu").css("display", "none");
+    }
+})
+
 
 // Редактор категорий
 
@@ -301,34 +316,68 @@ function saveProperties(categoryId){
 
 
 
-// Корзина
+// Список желаний
 
-function productToCart(userId, productId){
-    var cart = {
-        userId : userId,
-        productId : productId,
+function productToWishes(productId){
+    var data = {
         _csrf : $('meta[name="csrf-token"]').attr('content')
     };
-    $.post('/products', cart, function(data) {
-        alert(data);
+    $.post('/wishes/' + productId, data, function(response) {
+
     });
 };
 
-function deleteProductFromCart(productVersionId){
-    var cart = {
-        productVersionId : productVersionId
-    };
+$(".wish-btn").click(function () {
+    var icons = $(this).find(".h-icon").children();
+    if(icons.eq(0).css("display") == "inline-block"){
+        icons.eq(0).css("display", "none");
+        icons.eq(1).css("display", "none");
+    } else {
+        icons.eq(0).css("display", "inline-block");
+        icons.eq(1).css("display", "inline-block");
+    }
+})
 
+function deleteProductFromWishes(productId){
     $.ajax({
-        url: '/cart',
-        data: cart,
+        url: '/wishes/' + productId,
         dataType: "text",
         method: 'delete',
         headers: {
             'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
         },
-        success: function(response){
-            location.reload();
+        success: function(){
+            $(".card").has("input.pv-id[value='" + productId + "']").remove();
+        }
+    });
+};
+
+
+
+// Корзина
+
+function productToCart(productId){
+    var data = {
+        _csrf : $('meta[name="csrf-token"]').attr('content')
+    };
+    $.post('/cart/' + productId, data, function(response) {
+        $("#window-message").text(response);
+        $("#ref-btn").text("В корзину");
+        openDialog();
+    });
+};
+
+function deleteProductFromCart(productVersionId){
+    $.ajax({
+        url: '/cart/' + productVersionId,
+        dataType: "text",
+        method: 'delete',
+        headers: {
+            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(){
+            $(".cart-position").has("input.pv-id[value='" + productVersionId + "']").remove();
+            getCartSum();
         }
     });
 };
@@ -341,11 +390,10 @@ function changeProductCount(productVersionId, input) {
         input.value = 1;
     }
     var cart = {
-        productVersionId : productVersionId,
         count : input.value
     };
     $.ajax({
-        url: '',
+        url: '/cart/' + productVersionId,
         data: cart,
         method: 'put',
         headers: {
@@ -374,6 +422,121 @@ function openOrderForm() {
     $("#order-btn").attr("onclick", "sendOrder()");
 }
 
+
+// Прочее
+
+function deleteSpaces() {
+    var reg = new RegExp(String.fromCharCode(160), "g");
+    $("input[type='number']").each(function () {
+        $(this).val($(this).attr("value").replace(reg,''));
+    })
+}
+
+
+function openDialog() {
+    $("#fog").css("display", "block");
+    $("#window").css("display", "block");
+}
+function closeDialog() {
+    $("#fog").css("display", "none");
+    $("#window").css("display", "none");
+}
+function deleteProduct() {
+    $.ajax({
+        url: '',
+        data: {productVersionId : $("#productVersionId").val()},
+        method: 'delete',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            $(".admin-panel").html("<p class='empty'>" + response + "</p>");
+            closeDialog();
+        }
+    });
+}
+
+function changeOrderStatus(statusCode) {
+    $.ajax({
+        url: '',
+        data: {newStatus : ++statusCode},
+        method: 'put',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response){
+            $("#new-order-status").text(response);
+            openDialog();
+        }
+    });
+}
+
+function reload() {
+    location.reload();
+}
+
+function orderPage(id) {
+    document.location.href = '/orders/' + id;
+}
+
+
+// Каталог товаров
+
+$(".card").click(function (e) {
+    var div = $(".product-btns");
+    if (!div.is(e.target) && div.has(e.target).length === 0){
+        document.location.href = '/products/' + $(this).find(".pv-id").val();
+    }
+})
+
+
+// Страница товара
+
+$('#gallery-carousel').on('slide.bs.carousel', function (e) {
+    $(".img-mini").eq(e.from).css("box-shadow", "none");
+    $(".img-mini").eq(e.to).css("box-shadow", "0 0 0 3px rgba(0,0,0,0.3)");
+})
+
+$(".img-mini").click(function () {
+    $('.carousel').carousel($(".img-mini").index($(this)));
+})
+
+function productVersionMenu() {
+    if($("#product-version-menu").css("display") == 'none'){
+        $("#product-version-menu").css("display", "grid");
+        $("#product-version .down-btn img").css("transform", "rotate(180deg)");
+    } else {
+        $("#product-version-menu").css("display", "none");
+        $("#product-version .down-btn img").removeAttr('style');
+    }
+}
+
+$(".product-version-menu-li").click(function () {
+    document.location.href = this.id;
+})
+
+
+function logout() {
+    $.ajax({
+        url: '/logout',
+        method: 'post',
+        headers: {
+            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(){
+            document.location.href = '/';
+        }
+    });
+}
+
+function logoutDialog() {
+    $("#logout-window").css("display", "block");
+    $("#logout-fog").css("display", "block");
+}
+function closeLogoutDialog() {
+    $("#logout-window").css("display", "none");
+    $("#logout-fog").css("display", "none");
+}
 
 
 

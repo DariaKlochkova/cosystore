@@ -12,12 +12,12 @@ public class Cart {
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
     @ManyToOne
     @MapsId("product_version_id")
     @JoinColumn(name = "product_version_id")
-    ProductVersion productVersion;
+    private ProductVersion productVersion;
 
     private int count;
 
@@ -25,6 +25,11 @@ public class Cart {
         id = new CartKey(user.getId(), productVersion.getId());
         this.productVersion = productVersion;
         this.user = user;
+        this.count = count;
+    }
+
+    public Cart(ProductVersion productVersion, int count) {
+        this.productVersion = productVersion;
         this.count = count;
     }
 

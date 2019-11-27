@@ -8,4 +8,5 @@ import java.util.Set;
 public interface ProductRepo extends CrudRepository<Product, Integer> {
     Product findById(int id);
     Set<Product> findByCategoryId(int CategoryId);
+    Set<Product> findByNameOrGeneralInfIgnoreCaseStartingWith(String s1, String s2);
 }

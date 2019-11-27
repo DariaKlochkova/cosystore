@@ -1,5 +1,5 @@
 <#import "../parts/common.ftl" as c>
-<@c.page "../">
+<@c.page>
    <@c.admin "Редактирование категорий">
 
        <div class="row ml-0">
@@ -159,5 +159,5 @@
            </form>
        </div>
    </div>
-
+   <@c.script />
 </@c.page>

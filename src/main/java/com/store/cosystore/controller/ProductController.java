@@ -1,4 +1,4 @@
-package com.store.cosystore.controller.admin;
+package com.store.cosystore.controller;
 
 import com.store.cosystore.domain.Color;
 import com.store.cosystore.domain.Product;
@@ -7,6 +7,7 @@ import com.store.cosystore.domain.User;
 import com.store.cosystore.service.CategoryService;
 import com.store.cosystore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +75,7 @@ public class ProductController {
                                   Model model){
         model.addAttribute("user", user);
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
-        model.addAttribute("productVersion", productService.getProductVersionByArticle(article));
+        model.addAttribute("productVersion", productService.productVersionByArticle(article));
         model.addAttribute("colors", Color.values());
         return "admin/edit";
     }
@@ -84,6 +85,13 @@ public class ProductController {
     public int editProduct(@RequestBody Product product){
         productService.editProduct(product);
         return product.getId();
+    }
+
+    @DeleteMapping("editor")
+    @ResponseBody
+    public String deleteProduct(@RequestParam int productVersionId){
+        productService.deleteProduct(productVersionId);
+        return "Товар удалён из каталога";
     }
 
 }

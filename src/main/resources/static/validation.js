@@ -27,6 +27,12 @@ function validateProduct(act){
         valid = false;
         alert("Выберите хотя бы одну комнату");
     }
+    $('input[name="propertyValue"]').each(function () {
+        if($(this).val() == ""){
+            valid = false;
+            alert("Введите значение свойства");
+        }
+    })
 
     if(valid){
         $.ajax(saveProductRequest(act));
@@ -65,6 +71,7 @@ function saveProductRequest(act){
         depth : $("#inputDepth").val(),
         categoryId : $("#categoryId").val(),
         rooms : [],
+        values : [],
         productVersions : [
             {
                 id : $("#productVersionId").val(),
@@ -77,6 +84,12 @@ function saveProductRequest(act){
     };
     $('input[name="room"]').each(function () {
         product.rooms.push($(this).val());
+    });
+    $('input[name="propertyValue"]').each(function () {
+        product.values.push({
+            id : { propertyId : $(this).prev().val() },
+            value : $(this).val()
+        });
     });
 
     var imgForm = new FormData($('#imagesForm').get(0));
@@ -166,6 +179,7 @@ function saveProductVersion(){
 }
 
 function sendOrder(){
+    alert("Заказ принят. Чек отправлен вам на почту");
     var orderPositions = [];
     $(".cart-position").each(function () {
         orderPositions.push({
@@ -177,6 +191,7 @@ function sendOrder(){
     var order = {
         cost : $("#sum-value").val(),
         address : $("#inputAddress").val(),
+        email : $("#inputEmail").val(),
         recipient : $("#inputRecipient").val(),
         phoneNumber : $("#inputPhone").val(),
         orderPositions : orderPositions
@@ -184,16 +199,16 @@ function sendOrder(){
 
     $.ajax({
         contentType: "application/json; charset=UTF-8",
-        url: '/orders',
+        url: '/cart',
         data: JSON.stringify(order),
         dataType: "text",
         method: 'post',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        success: function(response){
-            alert(response);
-        }
+        // success: function(response){
+        //     alert(response);
+        // }
     });
 }
 

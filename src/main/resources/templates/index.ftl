@@ -1,5 +1,5 @@
 <#import "parts/common.ftl" as c>
-<@c.page "../">
+<@c.page>
    <@c.menu>
 
    <div id="content" class="container">
@@ -22,6 +22,6 @@
          </div>
       </div>
    </div>
-
    </@c.menu>
+   <@c.script />
 </@c.page>
