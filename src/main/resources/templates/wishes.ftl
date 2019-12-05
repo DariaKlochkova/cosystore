@@ -18,11 +18,11 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title uppercase">${productVersion.product.name}</h5>
-                        <p class="card-text">${productVersion.product.generalInf}</p>
+                        <p class="card-text" style="font-size: 13px">${productVersion.product.generalInf}</p>
                         <h4 class="price" style="font-weight: 500">${productVersion.product.price} ₽</h4>
                         <div class="row product-btns">
-                            <div class="col-auto pr-1 card-btn" onclick="deleteProductFromWishes(${productVersion.id})">
-                                <div class="wish-btn-mini"><i class="far fa-trash-alt"></i></span></div>
+                            <div class="col-auto pr-1 card-btn">
+                                <div class="wish-btn-mini" id="${productVersion.id}"><i class="far fa-trash-alt"></i></span></div>
                             </div>
                             <div class="col pl-2 card-btn">
                                 <div class="basket-btn" onclick="productToCart(${productVersion.id})" style="font-size: 17px">

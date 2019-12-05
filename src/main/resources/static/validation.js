@@ -1,5 +1,7 @@
 $('#inputArticle').inputmask('999.999.99');
 $('#inputProductArticle').inputmask('999.999.99');
+$('input [type="email"]').inputmask("email");
+$('#email').inputmask("email");
 
 function validateProduct(act){
     var valid = true;
@@ -62,7 +64,7 @@ function validateProductVersion(act){
 function saveProductRequest(act){
     var product = {
         id : $("#productId").val(),
-        name : $("#inputName").val(),
+        name : $("#inputName").val().toLowerCase(),
         price : $("#inputPrice").val(),
         generalInf : $("#inputInformation").val(),
         description : $("#inputDescription").val(),
@@ -179,7 +181,8 @@ function saveProductVersion(){
 }
 
 function sendOrder(){
-    alert("Заказ принят. Чек отправлен вам на почту");
+    if(!validateUserDataForm()) return;
+    $("#order-btn").html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>')
     var orderPositions = [];
     $(".cart-position").each(function () {
         orderPositions.push({
@@ -188,14 +191,19 @@ function sendOrder(){
         })
     });
 
+
     var order = {
         cost : $("#sum-value").val(),
-        address : $("#inputAddress").val(),
-        email : $("#inputEmail").val(),
-        recipient : $("#inputRecipient").val(),
-        phoneNumber : $("#inputPhone").val(),
         orderPositions : orderPositions
     };
+    var formData = new FormData($('#productForm').get(0));
+    formData.forEach(function(value, key){
+        order[key] = value;
+    });
+    order.address = 'г. ' + order.city + ', ул. ' + order.street + ', д.' + order.house;
+    if (order.apartment != '') order.address += ', кв. ' + order.apartment;
+    order.recipient = order.surname + ' ' + order.firstname;
+    if (order.patronymic != '') order.recipient += ' ' + order.patronymic;
 
     $.ajax({
         contentType: "application/json; charset=UTF-8",
@@ -206,11 +214,82 @@ function sendOrder(){
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        // success: function(response){
-        //     alert(response);
-        // }
+        success: function (response) {
+            alert(response);
+            location.reload();
+        }
     });
 }
+
+
+function checkUserData(username, password) {
+    if(validateUserDataForm()){
+        var user = {};
+        var formData = new FormData($('#lk-data-form').get(0));
+        formData.forEach(function(value, key){
+            if (value != '')
+                user[key] = value;
+        });
+
+        $.ajax({
+            contentType: "application/json; charset=UTF-8",
+            url: '/lk',
+            data: JSON.stringify(user),
+            method: 'post',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+                alert("Данные изменены");
+                location.reload();
+            }
+        });
+    }
+}
+
+function validateUserDataForm(){
+    var valid = true;
+    if($('#surname').val() == ""){
+        $('#surname').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите фамилию");
+    } else $('#surname').removeAttr('style');
+    if($('#firstname').val() == ""){
+        $('#firstname').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите имя");
+    } else $('#firstname').removeAttr('style');
+    if($('#city').val() == ""){
+        $('#city').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите город");
+    } else $('#city').removeAttr('style');
+    if($('#street').val() == ""){
+        $('#street').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите улицу");
+    } else $('#street').removeAttr('style');
+    if($('#house').val() == ""){
+        $('#house').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите номер дома");
+    } else $('#house').removeAttr('style');
+    if($('#email').val() == ""){
+        $('#email').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите email");
+    } else $('#email').removeAttr('style');
+    if($('#phoneNumber').val() == ""){
+        $('#phoneNumber').css("border-color", "#d72828");
+        valid = false;
+        alert("Введите номер телефона");
+    } else $('#phoneNumber').removeAttr('style');
+
+    return valid;
+}
+
+
+
 
 
 

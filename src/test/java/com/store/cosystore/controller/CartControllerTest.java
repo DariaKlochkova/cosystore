@@ -36,6 +36,4 @@ class CartControllerTest {
                 .andExpect(xpath("//*[@id='cart-content']/div[2]/div[2]/a/span").string("Пакс"));
     }
 
-
-
 }

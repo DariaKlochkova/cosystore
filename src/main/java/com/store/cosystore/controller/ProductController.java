@@ -6,6 +6,7 @@ import com.store.cosystore.domain.ProductVersion;
 import com.store.cosystore.domain.User;
 import com.store.cosystore.service.CategoryService;
 import com.store.cosystore.service.ProductService;
+import com.store.cosystore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,13 +25,15 @@ public class ProductController {
     private CategoryService categoryService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping
     public String addProductView(@AuthenticationPrincipal User user,
                                  @RequestParam(name="categoryId", required=false, defaultValue="0") int categoryId,
                                  Model model){
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("selectedCategory", categoryService.getCategory(categoryId));
         model.addAttribute("properties", categoryService.propertyList(categoryId));
@@ -55,7 +58,7 @@ public class ProductController {
     public String addProductVersionView(@AuthenticationPrincipal User user,
                                         @PathVariable int productId,
                                         Model model){
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("productVersions", productService.versionsOfProduct(productId));
         model.addAttribute("colors", Color.values());
         return "admin/version";
@@ -73,7 +76,7 @@ public class ProductController {
     public String editProductView(@AuthenticationPrincipal User user,
                                   @RequestParam String article,
                                   Model model){
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("productVersion", productService.productVersionByArticle(article));
         model.addAttribute("colors", Color.values());

@@ -4,7 +4,7 @@
 
     <div id="content" class="container">
         <div id="title">
-            <h2>Результаты поиска</h2>
+            <h2>${header}</h2>
             <hr class="mb-5" style="border-color: #ccc" />
         </div>
         <#list productVersions>
@@ -22,7 +22,7 @@
                             <h2 class="price">${productVersion.product.price} ₽</h2>
                             <div class="row product-btns">
                                 <div class="col-auto pr-2 card-btn">
-                                    <div class="wish-btn" onclick="productToWishes(${productVersion.id})">
+                                    <div class="wish-btn" id='${productVersion.id}'>
                                         <span class="h-icon">
                                             <i class="far fa-heart"></i><br/>
                                             <i class='fas fa-heart' style="color: #d72828;"></i>

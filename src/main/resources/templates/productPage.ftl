@@ -72,6 +72,27 @@
                </#if>
            </div>
        </div>
+
+       <div class="product-inf container mt-5">
+           <div class="product-props">
+               <h4 style="font-weight: 500; margin-bottom: 1rem">Характеристики</h4>
+               <hr class="mb-3" style="border-color: #ccc"/>
+               <div style="font-size: 17px">
+                   <div><b>Высота: </b> ${productVersion.product.height}см</div>
+                   <div><b>Ширина: </b> ${productVersion.product.width}см</div>
+                   <div class="mb-3"><b>Глубина: </b> ${productVersion.product.depth}см</div>
+                   <#list productVersion.product.values as value>
+                       <div><b>${value.property.name}: </b> ${value.value}</div>
+                   </#list>
+               </div>
+           </div>
+           <div class="product-description">
+               <h4 style="font-weight: 500; margin-bottom: 1rem">Описание</h4>
+               <hr class="mb-3" style="border-color: #ccc"/>
+               <p style="white-space: pre-line">${productVersion.product.description}</p>
+           </div>
+       </div>
+
        <div id="fog">
            <div id="window">
                <span style="font-size: large" id="window-message"></span>

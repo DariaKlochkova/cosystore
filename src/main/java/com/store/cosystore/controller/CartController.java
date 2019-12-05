@@ -6,6 +6,7 @@ import com.store.cosystore.domain.User;
 import com.store.cosystore.service.CartService;
 import com.store.cosystore.service.CategoryService;
 import com.store.cosystore.service.OrderService;
+import com.store.cosystore.service.UserService;
 import com.store.cosystore.session.SessionCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.context.WebApplicationContext;
 
 @Controller
 @RequestMapping("/cart")
@@ -26,6 +26,8 @@ public class CartController {
     private CartService cartService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private UserService userService;
 
     @ModelAttribute("cart")
     public SessionCart cart() {
@@ -35,7 +37,7 @@ public class CartController {
     @GetMapping
     public String cartView(@AuthenticationPrincipal User user, Model model,
                            @ModelAttribute("cart") SessionCart sessionCart){
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         if(user != null)
@@ -72,15 +74,14 @@ public class CartController {
 
     @PostMapping
     @ResponseBody
-    public boolean addOrder(@AuthenticationPrincipal User user,
-                            @RequestBody Order order,
-                            SessionStatus status) {
-        orderService.addOrder(order, user);
+    public String addOrder(@AuthenticationPrincipal User user,
+                           @RequestBody Order order,
+                           SessionStatus status) {
         if(user != null)
             cartService.cleanUserCart(user);
         else
             status.setComplete();
-        return true;
+        return orderService.addOrder(order, user);
     }
 
     @DeleteMapping("{productId}")

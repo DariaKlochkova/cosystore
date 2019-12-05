@@ -1,5 +1,7 @@
 package com.store.cosystore.service;
 
+import com.store.cosystore.domain.Category;
+import com.store.cosystore.domain.Color;
 import com.store.cosystore.domain.Product;
 import com.store.cosystore.domain.ProductVersion;
 import com.store.cosystore.repos.CategoryRepo;
@@ -13,11 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ProductService {
@@ -34,10 +34,16 @@ public class ProductService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public Set<ProductVersion> productVersionList(int categoryId){
-        return productRepo.findByCategoryId(categoryId).stream()
-                .flatMap(p -> p.getProductVersions().stream())
-                .collect(Collectors.toSet());
+    public Set<ProductVersion> productVersionList(int categoryId, String[] colors, Integer minPrice, Integer maxPrice){
+        Stream<ProductVersion> productVersions = productRepo.findByCategoryId(categoryId).stream()
+                .flatMap(p -> p.getProductVersions().stream());
+        if(colors != null)
+            productVersions = productVersions.filter(p -> Arrays.asList(colors).contains(p.getColor().getName()));
+        if(minPrice != null)
+            productVersions = productVersions.filter(p -> minPrice <= p.getProduct().getPrice());
+        if(maxPrice != null)
+            productVersions = productVersions.filter(p -> maxPrice >= p.getProduct().getPrice());
+        return productVersions.collect(Collectors.toSet());
     }
 
     public ProductVersion productVersionByArticle(String article){
@@ -72,6 +78,9 @@ public class ProductService {
         for (ProductVersion pv : product.getProductVersions()){
             pv.setProduct(product);
             productVersionRepo.save(pv);
+            Category category = categoryRepo.findById(product.getCategoryId());
+            category.getColors().add(pv.getColor());
+            categoryRepo.save(category);
         }
         for (com.store.cosystore.domain.Value v : product.getValues()){
             v.getId().setProductId(p.getId());
@@ -83,6 +92,9 @@ public class ProductService {
     public void addProductVersion(ProductVersion productVersion, int productId){
         productVersion.setProduct(productRepo.findById(productId));
         productVersionRepo.save(productVersion);
+        Category category = categoryRepo.findById(productVersion.getProduct().getCategoryId());
+        category.getColors().add(productVersion.getColor());
+        categoryRepo.save(category);
     }
 
     public void editProduct(Product product){
