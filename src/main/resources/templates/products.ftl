@@ -101,6 +101,19 @@
                 </a>
             </div>
         </div>
+        <div id="wishes-login-window">
+               <span style="font-size: large" id="window-message">
+                   Войдите, чтобы добавлять товары в<br/><i class="far fa-heart"></i>&nbsp;Список желаний
+               </span>
+            <div class="row justify-content-between" style="position: relative; top: 30%">
+                <div class="btn ml-3" id="win-delete-btn" onclick="closeDialog()">Отмена</div>
+                <a href="/login">
+                    <div class="btn mr-3 to-cart-btn">
+                        <span id="ref-btn">Войти</span>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
     </@c.menu>
     <@c.script/>

@@ -33,7 +33,7 @@ public class ProductListController {
                                   @RequestParam(required=false) Integer minPrice,
                                   @RequestParam(required=false) Integer maxPrice,
                                   Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         model.addAttribute("colors", categoryService.getColorsOfCategory(category));
@@ -45,7 +45,7 @@ public class ProductListController {
     @GetMapping("{productId}")
     public String productsPage(@AuthenticationPrincipal User user,
                                @PathVariable int productId, Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         model.addAttribute("productVersion", productService.productVersionById(productId));

@@ -5,6 +5,45 @@
 	outline: none;
 }
 
+#my-alert-wrapper {
+	position:fixed;
+	display:flex;
+	justify-content:center;
+	top:15px;
+	left:0;
+	right:0;
+	z-index: 1000;
+	animation: alert 0.3s ease-out;
+}
+#my-alert{
+	width: 400px;
+	min-height: 100px;
+	height: fit-content;
+	margin: 0 auto;
+	padding: .5rem 1rem;
+	border-radius: 2px;
+	text-align: center;
+	background-color: white;
+	box-shadow: 0 0 7px rgba(0,0,0,0.5);
+}
+#my-alert-message{
+	min-height: 38px;
+	margin-bottom: 1rem;
+}
+#my-alert-btn{
+	width: 60px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #e7d03d;
+	margin: 0 auto;
+	cursor: pointer;
+}
+
+@keyframes alert {
+	from {top: 0; opacity: 0}
+	to {top: 15px; opacity: 1}
+}
+
 nav{
 	background-color: #f2f2f2;
 	color: #000;
@@ -866,7 +905,8 @@ h4 span{
 	z-index: 20;
 }
 #window,
-#logout-window{
+#logout-window,
+#wishes-login-window{
     display: none;
 	position: relative;
     top: 35%;
@@ -931,7 +971,7 @@ h4 span{
 	font-size: 17px;
 	padding: .5rem 1rem;
 	transition: none;
-	min-width: 92px;
+	min-width: 100px;
 }
 
 #win-cancel-btn{
@@ -1242,7 +1282,8 @@ h4 span{
 	line-height: 40px;
 }
 .get-check{
-	padding: 8px 20px;
+	padding: 8px;
+	width: 140px;
 	border: 1px solid;
 	text-align: center;
 	cursor: pointer;
@@ -1392,4 +1433,10 @@ h4 span{
     grid-auto-rows: 1fr;
     grid-gap: 60px;
     width: 100%;
+}
+
+.spinner-border{
+	width: 1.5rem;
+	height: 1.5rem;
+	margin: 0 auto;
 }

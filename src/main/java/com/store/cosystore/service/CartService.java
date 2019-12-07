@@ -8,6 +8,7 @@ import com.store.cosystore.session.SessionCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,11 +31,11 @@ public class CartService {
         cartRepo.deleteAll(cartRepo.findByUserId(user.getId()));
     }
 
-    public Iterable<Cart> cart(int userId){
+    public Set<Cart> cart(int userId){
         return cartRepo.findByUserId(userId);
     }
 
-    public Iterable<Cart> sessionCart(SessionCart sessionCart) {
+    public Set<Cart> sessionCart(SessionCart sessionCart) {
         return sessionCart.getCart().entrySet().stream()
                 .map(e -> new Cart(productVersionRepo.findById(e.getKey()).get(), e.getValue()))
                 .collect(Collectors.toSet());

@@ -24,10 +24,10 @@ public class WishListController {
 
     @GetMapping
     public String wishesView(@AuthenticationPrincipal User user, Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
-        model.addAttribute("wishList", wishListService.wishList(user));
+        model.addAttribute("wishList", userService.getUser(user).getWishList());
         return "wishes";
     }
 
@@ -35,7 +35,7 @@ public class WishListController {
     @ResponseBody
     public String addProductToWishList(@AuthenticationPrincipal User user,
                                        @PathVariable int productId){
-        wishListService.addProduct(userService.getUserById(user.getId()), productId);
+        wishListService.addProduct(userService.getUser(user), productId);
         return "Товар добавлен в список желаний";
     }
 
@@ -43,7 +43,7 @@ public class WishListController {
     @ResponseBody
     public String deletePosition(@AuthenticationPrincipal User user,
                                  @PathVariable int productId){
-        wishListService.deleteProduct(userService.getUserById(user.getId()), productId);
+        wishListService.deleteProduct(userService.getUser(user), productId);
         return "Товар удалён из списка желаний";
     }
 }

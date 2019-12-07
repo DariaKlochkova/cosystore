@@ -3,6 +3,19 @@ $('#inputProductArticle').inputmask('999.999.99');
 $('input [type="email"]').inputmask("email");
 $('#email').inputmask("email");
 
+function myAlert(message, func){
+    var alert = $('<div id="my-alert-wrapper"><div id="my-alert">' +
+        '<div id="my-alert-message">' + message + '</div>' +
+        '<div id="my-alert-btn">Ок</div>' +
+        '</div></div>');
+    $('body').append(alert);
+    $('#my-alert-btn').click(function () {
+        alert.remove();
+        if(func === undefined) return;
+        func();
+    })
+}
+
 function validateProduct(act){
     var valid = true;
     if($('#inputArticle').val() == ""){
@@ -126,9 +139,9 @@ function saveProductRequest(act){
                     if(act == 'add'){
                         document.location.href = 'product/' + response;
                     } else if (act == 'edit'){
-                        alert("Изменения сохранены");
+                        myAlert("Изменения сохранены");
                     } else {
-                        alert("Товар добавлен в каталог");
+                        myAlert("Товар добавлен в каталог");
                     }
                 }
             });
@@ -163,7 +176,7 @@ function saveProductVersion(){
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response){
-                    alert("Товар добавлен в каталог");
+                    myAlert("Товар добавлен в каталог");
                     document.location.href = response;
                 }
             });
@@ -183,18 +196,9 @@ function saveProductVersion(){
 function sendOrder(){
     if(!validateUserDataForm()) return;
     $("#order-btn").html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>')
-    var orderPositions = [];
-    $(".cart-position").each(function () {
-        orderPositions.push({
-            id : { productVersion : $(this).find(".pv-id").val() },
-            count : $(this).find(".input-count").val()
-        })
-    });
-
 
     var order = {
         cost : $("#sum-value").val(),
-        orderPositions : orderPositions
     };
     var formData = new FormData($('#productForm').get(0));
     formData.forEach(function(value, key){
@@ -215,7 +219,7 @@ function sendOrder(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            alert(response);
+            myAlert(response);
             location.reload();
         }
     });
@@ -240,8 +244,9 @@ function checkUserData(username, password) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function () {
-                alert("Данные изменены");
-                location.reload();
+                myAlert("Данные изменены", function() {
+                    location.reload();
+                });
             }
         });
     }

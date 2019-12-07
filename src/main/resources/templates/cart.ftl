@@ -97,7 +97,7 @@
                   <div class="row mb-2">
                       <div class="col-8">
                           <label for="inputArticle">Электронная почта*</label>
-                          <input id="email" id="email" type="text" name="email" class="form-control" value="<#if user??><#if user.email??>${user.email}</#if></#if>"/>
+                          <input id="email" type="text" name="email" class="form-control" value="<#if user??><#if user.email??>${user.email}</#if></#if>"/>
                       </div>
                       <div class="col-4">
                           <label for="inputArticle">Телефон*</label>

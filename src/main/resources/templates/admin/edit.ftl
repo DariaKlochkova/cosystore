@@ -209,7 +209,7 @@
          $(".selectedRoomInput").each(function () {
             $("#"+$(this).val()).click();
             $(this).remove();
-         })
+         });
          deleteSpaces();
       </script>
    </@c.script>

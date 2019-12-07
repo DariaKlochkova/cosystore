@@ -22,7 +22,7 @@ public class OrdersController {
     @GetMapping
     public String orders(@AuthenticationPrincipal User user,
                          @RequestParam(required = false) Integer status, Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("statuses", Status.values());
         model.addAttribute("newCount", orderService.getNewCount());
         if (status == null)

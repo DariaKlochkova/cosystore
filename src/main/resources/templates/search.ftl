@@ -46,6 +46,34 @@
 
         </div>
     </div>
+
+    <div id="fog">
+        <div id="window">
+            <span style="font-size: large" id="window-message"></span>
+            <div class="row justify-content-between" style="position: relative; top: 47%">
+                <div class="btn ml-3 continue-btn" onclick="closeDialog()">Продолжить</div>
+                <a href="/cart">
+                    <div class="btn mr-3 to-cart-btn">
+                        <span id="ref-btn">В корзину</span>
+                        <i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id="wishes-login-window">
+            <span style="font-size: large" id="window-message">
+                Войдите, чтобы добавлять товары в<br/><i class="far fa-heart"></i>&nbsp;Список желаний
+            </span>
+            <div class="row justify-content-between" style="position: relative; top: 30%">
+                <div class="btn ml-3" id="win-delete-btn" onclick="closeDialog()">Отмена</div>
+                <a href="/login">
+                    <div class="btn mr-3 to-cart-btn">
+                        <span id="ref-btn">Войти</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
     </@c.menu>
     <@c.script />
 </@c.page>

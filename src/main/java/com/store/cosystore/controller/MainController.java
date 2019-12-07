@@ -23,7 +23,7 @@ public class MainController {
     @GetMapping("/")
     public String main(@AuthenticationPrincipal User user,
                        Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         return "index";

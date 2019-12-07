@@ -26,7 +26,7 @@ public class PersonalAreaController {
     @GetMapping
     public String personalArea(@AuthenticationPrincipal User user,
                                Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         model.addAttribute("orders", orderService.getUsersOrders(user.getId()));

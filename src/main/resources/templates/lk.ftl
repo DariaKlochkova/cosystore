@@ -142,9 +142,11 @@
                        </div>
                    </div>
                    <div class="row justify-content-between mt-3 px-3">
-                       <div class="get-check" onclick="getCheck(${order.id})">Получить чек</div>
+                       <div class="get-check" id="get-check-${order.id}" onclick="getCheck(${order.id})">
+                           Получить чек
+                       </div>
                        <#if order.status.code == 0>
-                           <div class="cancel-order" onclick="cancelOrderSure(this)">Отменить</div>
+                           <div class="cancel-order" onclick="cancelOrderSure(this)">Отменить заказ</div>
                            <div class="cancel-order-sure row">
                                <div class="col-auto">Вы точно хотите отменить заказ?</div>
                                <div class="col-auto filter-on" onclick="cancelOrder(${order.id})">Да</div>

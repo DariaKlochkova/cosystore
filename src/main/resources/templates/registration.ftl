@@ -18,7 +18,7 @@
             </div>
         </div>
         <#if error??>
-            <p class="error">Логин уже существует</p>
+            <p class="error">Такой логин уже существует</p>
         </#if>
         <p>
             <label for="firstname" class="sr-only">Имя</label>

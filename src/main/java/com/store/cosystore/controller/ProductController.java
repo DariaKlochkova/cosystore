@@ -33,7 +33,7 @@ public class ProductController {
     public String addProductView(@AuthenticationPrincipal User user,
                                  @RequestParam(name="categoryId", required=false, defaultValue="0") int categoryId,
                                  Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("selectedCategory", categoryService.getCategory(categoryId));
         model.addAttribute("properties", categoryService.propertyList(categoryId));
@@ -58,7 +58,7 @@ public class ProductController {
     public String addProductVersionView(@AuthenticationPrincipal User user,
                                         @PathVariable int productId,
                                         Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("productVersions", productService.versionsOfProduct(productId));
         model.addAttribute("colors", Color.values());
         return "admin/version";
@@ -76,7 +76,7 @@ public class ProductController {
     public String editProductView(@AuthenticationPrincipal User user,
                                   @RequestParam String article,
                                   Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("productVersion", productService.productVersionByArticle(article));
         model.addAttribute("colors", Color.values());

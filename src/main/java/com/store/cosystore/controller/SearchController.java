@@ -27,7 +27,7 @@ public class SearchController {
     @GetMapping
     public String searchResult(@AuthenticationPrincipal User user,
                                @RequestParam String query, Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         model.addAttribute("header", "Результаты поиска \"" + query +  "\"");

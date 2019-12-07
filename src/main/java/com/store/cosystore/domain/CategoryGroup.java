@@ -10,7 +10,7 @@ public class CategoryGroup {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "categoryGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "categoryGroup", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Category> categories;
 
     public CategoryGroup(String name) {

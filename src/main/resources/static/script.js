@@ -1,3 +1,17 @@
+function myAlert(message, func){
+    var alert = $('<div id="my-alert-wrapper"><div id="my-alert">' +
+                     '<div id="my-alert-message">' + message + '</div>' +
+                     '<div id="my-alert-btn">Ок</div>' +
+                  '</div></div>');
+    $('body').append(alert);
+    $('#my-alert-btn').click(function () {
+        alert.remove();
+        if(func === undefined) return;
+        func();
+    })
+}
+
+
 $("#product-menu-btn").click(function (e) {
     $("#product-menu").css("display", "grid");
     $(this).css("background-color", "white");
@@ -234,9 +248,9 @@ function deleteItem(item){
 };
 
 function closeWindow(){
-    $("#window").fadeOut();
-    $("#window-deny-order").fadeOut();
-    $("#fog").fadeOut();
+    $("#window").fadeOut('fast');
+    $("#window-deny-order").fadeOut('fast');
+    $("#fog").fadeOut('fast');
 };
 
 function addProperty(category){
@@ -331,16 +345,27 @@ function saveProperties(categoryId){
 // Список желаний
 
 function productToWishes(productId){
+    if($('#userName').length == 0){
+        $("#fog").fadeIn('fast');
+        $("#wishes-login-window").fadeIn('fast');
+        return;
+    }
     $('a[href="/wishes"]').css("animation", "wish 1s cubic-bezier(0.65, 0.05, 0.36, 1)");
     var data = {
         _csrf : $('meta[name="csrf-token"]').attr('content')
     };
     $.post('/wishes/' + productId, data);
+
     var f = function(){$('a[href="/wishes"]').css("animation", "none")};
     setTimeout(f, 1000);
 };
 
 $(".wish-btn").click(function () {
+    if($('#userName').length == 0){
+        $("#fog").fadeIn('fast');
+        $("#wishes-login-window").fadeIn('fast');
+        return;
+    }
     var icons = $(this).find(".h-icon").children();
     if(icons.eq(0).css("display") == "inline-block"){
         productToWishes($(this).attr('id'));
@@ -402,7 +427,7 @@ function deleteProductFromCart(productVersionId){
 
 function changeProductCount(productVersionId, input) {
     if (Number.parseInt(input.value) > Number.parseInt(input.max)){
-        alert('К сожалению, у нас есть только ' + input.max + ' единиц данного товара');
+        myAlert('К сожалению, у нас есть только ' + input.max + ' единиц данного товара');
         input.value = input.max;
     } else if (Number.parseInt(input.value) < 1){
         input.value = 1;
@@ -456,12 +481,13 @@ function deleteSpaces() {
 
 
 function openDialog() {
-    $("#fog").fadeIn();
-    $("#window").fadeIn();
+    $("#fog").fadeIn('fast');
+    $("#window").fadeIn('fast');
 }
 function closeDialog() {
-    $("#fog").fadeOut();
-    $("#window").fadeOut();
+    $("#fog").fadeOut('fast');
+    $("#window").fadeOut('fast');
+    $("#wishes-login-window").fadeOut('fast');
 }
 function deleteProduct() {
     $.ajax({
@@ -553,12 +579,12 @@ function logout() {
 }
 
 function logoutDialog() {
-    $("#logout-window").fadeIn();
-    $("#logout-fog").fadeIn();
+    $("#logout-window").fadeIn('fast');
+    $("#logout-fog").fadeIn('fast');
 }
 function closeLogoutDialog() {
-    $("#logout-window").fadeOut();
-    $("#logout-fog").fadeOut();
+    $("#logout-window").fadeOut('fast');
+    $("#logout-fog").fadeOut('fast');
 }
 
 
@@ -708,6 +734,7 @@ function cancelOrder(orderId) {
 }
 
 function getCheck(orderId) {
+    $("#get-check-" + orderId).html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>')
     $.ajax({
         url: '/lk/order',
         data: {orderId: orderId},
@@ -716,7 +743,8 @@ function getCheck(orderId) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response){
-            alert(response);
+            myAlert(response);
+            $("#get-check-" + orderId).html('Получить чек');
         }
     });
 }
@@ -737,7 +765,7 @@ function denyOrder(orderId) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response){
-            alert(response);
+            myAlert(response);
         }
     });
 }

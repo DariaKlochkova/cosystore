@@ -22,7 +22,7 @@ public class CategoryController {
     @GetMapping
     public String categories(@AuthenticationPrincipal User user,
                              Model model){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         return "admin/categories";
     }

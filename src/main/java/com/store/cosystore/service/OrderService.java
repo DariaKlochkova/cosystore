@@ -4,10 +4,13 @@ import com.store.cosystore.domain.*;
 import com.store.cosystore.repos.OrderPositionRepo;
 import com.store.cosystore.repos.OrderRepo;
 import com.store.cosystore.repos.ProductVersionRepo;
+import com.store.cosystore.session.SessionCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Service
 public class OrderService {
@@ -19,23 +22,30 @@ public class OrderService {
     @Autowired
     ProductVersionRepo productVersionRepo;
     @Autowired
+    CartService cartService;
+    @Autowired
     private MailSender mailSender;
 
-    public String addOrder(Order order, User user) {
-        if (user != null)
+    public String addOrder(Order order, User user, SessionCart sessionCart) {
+        Set<Cart> cart;
+        if (user != null){
             order.setUser(user);
-        Order ord = orderRepo.save(order);
-        for (OrderPosition op : order.getOrderPositions()){
-            op.getId()
-                    .setOrder(ord.getId());
-            op.setOrder(ord);
-            ProductVersion productVersion = productVersionRepo.findById(op.getId().getProductVersion());
-            op.setProductVersion(productVersion);
-            productVersion.decreaseCount(op.getCount());
-            productVersionRepo.save(productVersion);
-            orderPositionRepo.save(op);
+            cart = cartService.cart(user.getId());
+        } else {
+            cart = cartService.sessionCart(sessionCart);
         }
-        ord = orderRepo.findById(ord.getId());
+
+        Set<OrderPosition> orderPositions = new HashSet<>();
+
+        for (Cart c : cart){
+            ProductVersion productVersion = c.getProductVersion();
+            productVersion.decreaseCount(c.getCount());
+            productVersionRepo.save(productVersion);
+            orderPositions.add(new OrderPosition(productVersion, c.getCount()));
+        }
+
+        order.setOrderPositions(orderPositions);
+        Order ord = orderRepo.save(order);
         try {
             mailSender.sendWithCheck(ord);
         } catch (Exception e) {

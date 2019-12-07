@@ -69,9 +69,7 @@ public class CategoryService {
     }
 
     public void addCategory(String groupName, String categoryName){
-        CategoryGroup cg = categoryGroupRepo.findByName(groupName);
-        cg.getCategories().add(new Category(categoryName, cg));
-        categoryGroupRepo.save(cg);
+        categoryRepo.save(new Category(categoryName, categoryGroupRepo.findByName(groupName)));
     }
 
     public void saveProperties(Category category){

@@ -1,34 +1,37 @@
 package com.store.cosystore.domain;
 
-import com.store.cosystore.domain.keys.OrderPositionKey;
 import javax.persistence.*;
 
 @Entity
 public class OrderPosition {
 
-    @EmbeddedId
-    private OrderPositionKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @ManyToOne
-    @MapsId("product_version_id")
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    private Order order;
+
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
     @JoinColumn(name = "product_version_id")
     private ProductVersion productVersion;
-
-    @ManyToOne
-    @MapsId("order_id")
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     private int count;
 
     public OrderPosition() {
     }
 
-    public OrderPositionKey getId() {
+    public OrderPosition(ProductVersion productVersion, int count) {
+        this.productVersion = productVersion;
+        this.count = count;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(OrderPositionKey id) {
+    public void setId(int id) {
         this.id = id;
     }
 

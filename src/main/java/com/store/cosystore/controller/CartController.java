@@ -37,7 +37,7 @@ public class CartController {
     @GetMapping
     public String cartView(@AuthenticationPrincipal User user, Model model,
                            @ModelAttribute("cart") SessionCart sessionCart){
-        model.addAttribute("user", userService.getUserById(user.getId()));
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         model.addAttribute("rooms", Room.values());
         if(user != null)
@@ -76,12 +76,13 @@ public class CartController {
     @ResponseBody
     public String addOrder(@AuthenticationPrincipal User user,
                            @RequestBody Order order,
-                           SessionStatus status) {
+                           @ModelAttribute("cart") SessionCart sessionCart) {
+        String response = orderService.addOrder(order, user, sessionCart);
         if(user != null)
             cartService.cleanUserCart(user);
         else
-            status.setComplete();
-        return orderService.addOrder(order, user);
+            sessionCart.clear();
+        return response;
     }
 
     @DeleteMapping("{productId}")
