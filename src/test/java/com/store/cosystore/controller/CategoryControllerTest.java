@@ -43,7 +43,7 @@ class CategoryControllerTest {
 
     @Test
     void categories() throws Exception {
-        this.mockMvc.perform(get("/admin/categories"))
+        mockMvc.perform(get("/admin/categories"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Обеденные столы")));

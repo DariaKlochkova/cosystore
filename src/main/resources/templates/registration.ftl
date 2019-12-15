@@ -37,13 +37,17 @@
             <input type="password" id="password" name="password" class="form-control login-input" placeholder="Пароль" required>
 <#--            <div class="after-form"><i class="far fa-eye after-form"></i>-->
         </p>
-        <p class="mb-5">
+        <p class="mb-3" style="height: 75px">
             <label for="password-2" class="sr-only">Повторите пароль</label>
             <input type="password" id="password-2" name="password-2" class="form-control login-input" placeholder="Повторите пароль" required>
+            <small class="form-text" id="password-2-tip">Пароли не совпадают</small>
         </p>
         <input name="_csrf" type="hidden" value="${_csrf.token}" />
-        <button class="btn btn-lg btn-block" type="submit">Зарегистрироваться</button>
+        <button class="btn btn-lg btn-block" type="submit" id="register-btn">Зарегистрироваться</button>
         <a href="/login"><p class="register">Вход</p></a>
     </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+<script src="/static/validation.js"></script>
 </body></html>

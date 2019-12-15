@@ -14,7 +14,7 @@ insert into category(id, name, group_id) values
 (2, 'Обеденные столы', 1);
 
 insert into product(id, general_inf, name, height, width, depth, price, promotion_price, category_id) values
-(1, 'Стол', 'Пакс', 80, 120, 50, 1000, 0, 1),
+(1, 'Стол', 'Pax', 80, 120, 50, 1000, 0, 1),
 (2, 'Обеденный стол', 'Клубу', 120, 120, 90, 4000, 0, 1);
 
 insert into usr(id, username, password, firstname, surname) values

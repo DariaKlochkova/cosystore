@@ -293,9 +293,14 @@ function validateUserDataForm(){
     return valid;
 }
 
-
-
-
-
-
-
+$('#password, #password-2').on('input', function() {
+    if($('#password').val() != $('#password-2').val()){
+        $('#password-2').css("border-color", "#d72828");
+        $('#password-2-tip').fadeIn('fast');
+        $('#register-btn').attr('disabled', 'disabled');
+    } else {
+        $('#password-2').removeAttr('style');
+        $('#password-2-tip').fadeOut('fast');
+        $('#register-btn').removeAttr('disabled');
+    }
+});

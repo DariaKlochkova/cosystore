@@ -10,9 +10,11 @@
 
         <div id="filters" class="row justify-content-around">
             <div class="col-auto">
-                <span class="filter-title" id="inputColorName" onclick="showColorDropdown()">Цвет <i class="fas fa-angle-down"></i></span>
+                <span class="filter-title" id="inputColorName" onclick="showColorDropdown()">
+                    Цвет <i class="fas fa-angle-down"></i>
+                </span>
                 <i class="fas fa-times" onclick="resetColor()" style="display: none"></i>
-                <div class="color-filter-menu" style="display: none">
+                <div class="color-filter-menu filter-menu" style="display: none">
                     <#list colors as color>
                         <div class="color-menu-item">
                             <#if color.getCode() == "">
@@ -29,9 +31,11 @@
                 <span class="filter-on" onclick="sendFilters()">Применить фильтры</span>
             </div>
             <div class="col-auto">
-                <span class="filter-title" id="inputPriceFilter" onclick="showPriceDropdown()">Цена <i class="fas fa-angle-down"></i></span>
+                <span class="filter-title" id="inputPriceFilter" onclick="showPriceDropdown()">
+                    Цена <i class="fas fa-angle-down"></i>
+                </span>
                 <i class="fas fa-times" onclick="resetPrice()" style="display: none"></i>
-                <div class="price-filter-menu" style="display: none">
+                <div class="price-filter-menu filter-menu" style="display: none">
                     <div class="row">
                         <div class="col-12">
                             <div id="slider-range"></div>

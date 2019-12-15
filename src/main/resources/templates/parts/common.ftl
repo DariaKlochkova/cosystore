@@ -151,8 +151,8 @@
             <a class="navbar-brand" href="/">CosySt<img src="/img/home.png" height="26px" width="20px"/>re</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown" style="margin-right: 20px;">
-                    <div class="nav-link dropdown-toggle" id="product-menu-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Товары
+                    <div class="nav-link" id="product-menu-btn" aria-haspopup="true" aria-expanded="false">
+                        Товары <i class="fas fa-caret-down"></i>
                         <div id="product-menu" style="display: none">
                             <div id="product-menu-groups">
                                 <#list categoryGroups as categoryGroup>
@@ -170,8 +170,8 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown" style="margin-right: 20px;">
-                    <div class="nav-link dropdown-toggle" id="product-menu-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Комнаты
+                    <div class="nav-link" id="room-menu-btn" aria-haspopup="true" aria-expanded="false">
+                        Комнаты <i class="fas fa-caret-down"></i>
                         <div id="room-menu" style="display: none">
                             <#list rooms as room>
                                 <div class="room-item">${room.getName()}</div>

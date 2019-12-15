@@ -74,13 +74,8 @@ $(document).click(function hideDropdown(e){
 		div.css("display", "none");
 	}
 
-    div = $(".color-filter-menu");
-    if (!div.is(e.target) && div.has(e.target).length === 0 && !$("#inputColorName").is(e.target)) {
-        div.css("display", "none");
-    }
-
-    div = $(".price-filter-menu");
-    if (!div.is(e.target) && div.has(e.target).length === 0 && !$("#inputPriceFilter").is(e.target)) {
+    div = $(".filter-menu");
+    if (!div.is(e.target) && div.has(e.target).length === 0 && !$("#inputPriceFilter").is(e.target) && !$("#inputColorName").is(e.target)) {
         div.css("display", "none");
     }
 
@@ -618,6 +613,7 @@ $('.color-menu-item').click(function () {
 })
 
 function sendFilters() {
+    $(document).click();
     $('#minPrice, #maxPrice').change();
     var data = {
         category : getUrlVar().category,
@@ -714,7 +710,6 @@ function resetPrice() {
     $('#maxPrice').val(100000);
     sendFilters();
 }
-
 
 
 // Личный кабинет

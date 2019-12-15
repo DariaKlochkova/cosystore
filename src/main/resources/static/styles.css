@@ -736,7 +736,7 @@ input[placeholder="см"]::placeholder{
 	background-color: #ddd;
 	transition: none;
 }
-.btn-block:hover{
+.btn-block:not([disabled]):hover{
 	background-color: #e7d03a;
 }
 
@@ -1439,4 +1439,14 @@ h4 span{
 	width: 1.5rem;
 	height: 1.5rem;
 	margin: 0 auto;
+}
+
+#password-2-tip{
+	margin-top: -0.5rem;
+	color: #d72828;
+	display: none;
+}
+
+.btn:disabled {
+	opacity: 1;
 }

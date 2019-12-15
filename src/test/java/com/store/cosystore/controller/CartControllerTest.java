@@ -44,7 +44,7 @@ class CartControllerTest {
     public void cartView() throws Exception {
         mockMvc.perform(get("/cart"))
                 .andDo(print())
-                .andExpect(xpath("//*[@id='cart-content']/div[2]/div[2]/a/span").string("Пакс"));
+                .andExpect(xpath("//*[@id='cart-content']/div[2]/div[2]/a/span").string("Pax"));
     }
 
     @Test
