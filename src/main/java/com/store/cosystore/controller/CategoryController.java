@@ -3,9 +3,8 @@ package com.store.cosystore.controller;
 import com.store.cosystore.domain.Category;
 import com.store.cosystore.domain.User;
 import com.store.cosystore.service.CategoryService;
+import com.store.cosystore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +16,13 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public String categories(@AuthenticationPrincipal User user,
                              Model model){
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUser(user));
         model.addAttribute("categoryGroups", categoryService.categoryGroupList());
         return "admin/categories";
     }

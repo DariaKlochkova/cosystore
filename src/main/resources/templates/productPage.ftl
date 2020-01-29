@@ -72,6 +72,27 @@
                </#if>
            </div>
        </div>
+
+       <div class="product-inf container mt-5">
+           <div class="product-props">
+               <h4 style="font-weight: 500; margin-bottom: 1rem">Характеристики</h4>
+               <hr class="mb-3" style="border-color: #ccc"/>
+               <div style="font-size: 17px">
+                   <div><b>Высота: </b> ${productVersion.product.height}см</div>
+                   <div><b>Ширина: </b> ${productVersion.product.width}см</div>
+                   <div class="mb-3"><b>Глубина: </b> ${productVersion.product.depth}см</div>
+                   <#list productVersion.product.values as value>
+                       <div><b>${value.property.name}: </b> ${value.value}</div>
+                   </#list>
+               </div>
+           </div>
+           <div class="product-description">
+               <h4 style="font-weight: 500; margin-bottom: 1rem">Описание</h4>
+               <hr class="mb-3" style="border-color: #ccc"/>
+               <p style="white-space: pre-line">${productVersion.product.description}</p>
+           </div>
+       </div>
+
        <div id="fog">
            <div id="window">
                <span style="font-size: large" id="window-message"></span>
@@ -81,6 +102,19 @@
                        <div class="btn mr-3 to-cart-btn">
                            <span id="ref-btn">В корзину</span>
                            <i class="fas fa-arrow-right" style="margin-left: 10px"></i>
+                       </div>
+                   </a>
+               </div>
+           </div>
+           <div id="wishes-login-window">
+               <span style="font-size: large" id="window-message">
+                   Войдите, чтобы добавлять товары в<br/><i class="far fa-heart"></i>&nbsp;Список желаний
+               </span>
+               <div class="row justify-content-between" style="position: relative; top: 30%">
+                   <div class="btn ml-3" id="win-delete-btn" onclick="closeDialog()">Отмена</div>
+                   <a href="/login">
+                       <div class="btn mr-3 to-cart-btn">
+                           <span id="ref-btn">Войти</span>
                        </div>
                    </a>
                </div>

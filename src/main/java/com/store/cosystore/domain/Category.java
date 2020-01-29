@@ -1,8 +1,6 @@
 package com.store.cosystore.domain;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,12 +20,15 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<Product> products;
 
+    @ElementCollection(targetClass = Color.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "category_colors", joinColumns = @JoinColumn(name = "category_id"))
+    private Set<Color> colors;
+
+    public Category() {}
+
     public Category(String name, CategoryGroup categoryGroup) {
         this.name = name;
         this.categoryGroup = categoryGroup;
-    }
-
-    public Category() {
     }
 
     public int getId() {
@@ -68,5 +69,13 @@ public class Category {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    public Set<Color> getColors() {
+        return colors;
+    }
+
+    public void setColors(Set<Color> colors) {
+        this.colors = colors;
     }
 }

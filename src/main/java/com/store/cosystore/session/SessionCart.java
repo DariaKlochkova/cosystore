@@ -27,4 +27,8 @@ public class SessionCart {
     public void deleteProduct(Integer productId){
         cart.remove(productId);
     }
+
+    public void clear(){
+        cart.clear();
+    }
 }

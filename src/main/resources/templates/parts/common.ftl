@@ -6,9 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="csrf-token" content="${_csrf.token}"/>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
         <link rel="stylesheet" href="/static/styles.css"/>
 
         <title>CosyStore</title>
@@ -22,6 +23,7 @@
 <#macro script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/static/script.js"></script>
     <script src="/static/validation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -33,8 +35,8 @@
 
 <#macro admin header>
     <nav id="upper-nav" class="navbar navbar-expand-lg">
-        <a id="userName" class="mr-auto" href="#">
-            <i class="far fa-user"></i> ${user.fullname}
+        <a id="userName" class="mr-auto" style="color: #111">
+            <i class="far fa-user"></i> ${user.surname} ${user.firstname}
         </a>
         <a id="admin-btn-on" href="/admin/product" class="hovered">
             Администрирование
@@ -74,7 +76,6 @@
             <div class="row justify-content-between" style="position: relative; top: 47%">
                 <div class="btn ml-3 continue-btn" onclick="closeLogoutDialog()">Отмена</div>
                 <div class="btn mr-3 to-cart-btn" onclick="logout()">Да</div>
-                </a>
             </div>
         </div>
     </div>
@@ -83,8 +84,8 @@
 
 <#macro delivery header>
     <nav id="upper-nav" class="navbar navbar-expand-lg">
-        <a id="userName" class="mr-auto" href="#">
-            <i class="far fa-user"></i> ${user.fullname}
+        <a id="userName" class="mr-auto" style="color: #111">
+            <i class="far fa-user"></i> ${user.surname} ${user.firstname}
         </a>
         <a id="admin-btn-on" href="/orders">
             Заказы
@@ -92,13 +93,10 @@
         <span class="upper-nav-item log" onclick="logoutDialog()">Выйти</span>
     </nav>
     <div class="sidenav">
-        <span>Заказы</span>
-        <a href="/admin/product" class="li">New</a>
-        <a href="/admin/product" class="li">Completing</a>
-        <a href="/admin/product" class="li">Transit</a>
-        <a href="/admin/product" class="li">Ready</a>
-        <a href="/admin/product" class="li">Completed</a>
-        <a href="/admin/product" class="li">Canceled</a>
+        <a href="/orders">Заказы</a>
+        <#list statuses as status>
+            <a href="/orders?status=${status.code}" class="li">${status.getName()}</a>
+        </#list>
         <a href="/"><img src="/img/home_cut.png" width="120px" style="position: fixed; left: 0; bottom: 0;" /></a>
     </div>
     <div class="main">
@@ -115,7 +113,6 @@
             <div class="row justify-content-between" style="position: relative; top: 47%">
                 <div class="btn ml-3 continue-btn" onclick="closeLogoutDialog()">Отмена</div>
                 <div class="btn mr-3 to-cart-btn" onclick="logout()">Да</div>
-                </a>
             </div>
         </div>
     </div>
@@ -125,8 +122,8 @@
 <#macro menu>
     <nav id="upper-nav" class="navbar navbar-expand-lg">
         <#if user??>
-            <a id="userName" class="mr-auto" href="#">
-                <i class="far fa-user"></i> ${user.fullname}
+            <a id="userName" class="mr-auto" href="/lk">
+                <i class="far fa-user"></i> ${user.surname} ${user.firstname}
             </a>
             <#if user.hasAdminRole()>
                 <a id="admin-btn" href="/admin/product">
@@ -151,11 +148,11 @@
     </nav>
     <nav class="navbar navbar-expand-lg" id="main-navbar">
         <div class="container">
-            <a class="navbar-brand" href="/">CosySt<img src="/img/home.png" height="26px" width="20px" />re</a>
+            <a class="navbar-brand" href="/">CosySt<img src="/img/home.png" height="26px" width="20px"/>re</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown" style="margin-right: 20px;">
-                    <div class="nav-link dropdown-toggle" id="product-menu-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Товары
+                    <div class="nav-link" id="product-menu-btn" aria-haspopup="true" aria-expanded="false">
+                        Товары <i class="fas fa-caret-down"></i>
                         <div id="product-menu" style="display: none">
                             <div id="product-menu-groups">
                                 <#list categoryGroups as categoryGroup>
@@ -173,8 +170,8 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown" style="margin-right: 20px;">
-                    <div class="nav-link dropdown-toggle" id="product-menu-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Комнаты
+                    <div class="nav-link" id="room-menu-btn" aria-haspopup="true" aria-expanded="false">
+                        Комнаты <i class="fas fa-caret-down"></i>
                         <div id="room-menu" style="display: none">
                             <#list rooms as room>
                                 <div class="room-item">${room.getName()}</div>
@@ -199,7 +196,6 @@
             <div class="row justify-content-between" style="position: relative; top: 47%">
                 <div class="btn ml-3 continue-btn" onclick="closeLogoutDialog()">Отмена</div>
                 <div class="btn mr-3 to-cart-btn" onclick="logout()">Да</div>
-                </a>
             </div>
         </div>
     </div>

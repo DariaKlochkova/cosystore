@@ -2,6 +2,7 @@ package com.store.cosystore.service;
 
 import com.store.cosystore.domain.Category;
 import com.store.cosystore.domain.CategoryGroup;
+import com.store.cosystore.domain.Color;
 import com.store.cosystore.domain.Property;
 import com.store.cosystore.repos.CategoryGroupRepo;
 import com.store.cosystore.repos.CategoryRepo;
@@ -68,9 +69,7 @@ public class CategoryService {
     }
 
     public void addCategory(String groupName, String categoryName){
-        CategoryGroup cg = categoryGroupRepo.findByName(groupName);
-        cg.getCategories().add(new Category(categoryName, cg));
-        categoryGroupRepo.save(cg);
+        categoryRepo.save(new Category(categoryName, categoryGroupRepo.findByName(groupName)));
     }
 
     public void saveProperties(Category category){
@@ -80,5 +79,9 @@ public class CategoryService {
             p.setCategory(c);
             propertyRepo.save(p);
         }
+    }
+
+    public Set<Color> getColorsOfCategory(int categoryId) {
+        return new LinkedHashSet<>(categoryRepo.findById(categoryId).getColors());
     }
 }

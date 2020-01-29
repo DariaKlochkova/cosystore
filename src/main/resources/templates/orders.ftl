@@ -43,5 +43,11 @@
        </#list>
 
    </@c.delivery>
-   <@c.script />
+   <@c.script>
+       <script>
+           var html = 'Новые';
+           if(${newCount} > 0) html += '<span id="new-orders-count">${newCount}</span>';
+           $('a[href="/orders?status=0"]').html(html);
+       </script>
+   </@c.script>
 </@c.page>
