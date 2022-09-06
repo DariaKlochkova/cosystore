@@ -1,23 +1,16 @@
 package com.store.cosystore.service;
 
 import com.itextpdf.text.DocumentException;
-import com.store.cosystore.domain.Order;
-import com.store.cosystore.domain.OrderPosition;
-import com.store.cosystore.domain.User;
-import com.store.cosystore.domain.keys.OrderPositionKey;
 import com.store.cosystore.repos.OrderPositionRepo;
 import com.store.cosystore.repos.OrderRepo;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.Collections;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

@@ -22,7 +22,7 @@ public class SearchService {
         if (query.matches("\\d{3}[.]\\d{3}[.]\\d{2}"))
             return Collections.singleton(productVersionRepo.findByArticle(query));
 
-        return productRepo.findByNameOrGeneralInfIgnoreCaseStartingWith(query.toLowerCase(), query)
+        return productRepo.findByNameOrGeneralInfIgnoreCaseContaining(query.toLowerCase(), query)
                 .stream()
                 .flatMap(p -> p.getProductVersions().stream())
                 .collect(Collectors.toSet());

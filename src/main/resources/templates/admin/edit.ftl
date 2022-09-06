@@ -74,12 +74,14 @@
 
             <div class="col-10" id="images">
                <form method="post" enctype="multipart/form-data" id="imagesForm">
+                  <#if productVersion.images ??>
                    <#list productVersion.images as image>
                        <div class="custom-file">
                            <img class="thumb" src="/upload/${image}">
                            <input type="text" name="images" value="${image}">
                        </div>
                    </#list>
+                  </#if>
                    <div class="custom-file" id="file-input-div">
                       <input id="file-input" type="file" onchange="change(this)">
                       <label for="file-input" id="file-input-label">
@@ -209,7 +211,7 @@
          $(".selectedRoomInput").each(function () {
             $("#"+$(this).val()).click();
             $(this).remove();
-         })
+         });
          deleteSpaces();
       </script>
    </@c.script>

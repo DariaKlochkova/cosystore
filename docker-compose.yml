@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  db:
+#    network_mode: host
+    image: pg:v1
+    container_name: postgres
+    ports:
+      - 5433:5432
+#    volumes:
+#      - \\DESKTOP-RUVLGR4\Users\dasha\IdeaProjects\cosystore\pgdata:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: cosystore
+      POSTGRES_USER: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+#    restart: always
+
+  app:
+#    network_mode: host
+    image: dasha00/cosystore
+    #restart: always
+    links:
+      - db
+    ports:
+      - 8080:8080
+#    volumes:
+#      - /c/users/dasha/IdeaProjects/cosystore/uploads:/var/lib/uploads
+#      - C:\Users\dasha\IdeaProjects\cosystore\src\main\resources\templates\img:/var/lib/img
+    environment:
+      POSTGRES_HOST: db:5432

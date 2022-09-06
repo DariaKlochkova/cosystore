@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -17,8 +17,14 @@ public class User implements UserDetails {
     private Integer id;
     private String username;
     private String password;
-    private String fullname;
-    private String address;
+
+    private String firstname;
+    private String surname;
+    private String patronymic;
+    private String city;
+    private String street;
+    private String house;
+    private String apartment;
     private String phoneNumber;
     private String email;
 
@@ -27,7 +33,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "wish",
                joinColumns = @JoinColumn(name = "user_id"),
                inverseJoinColumns = @JoinColumn(name = "product_version_id"))
@@ -37,6 +43,14 @@ public class User implements UserDetails {
     private List<Order> orders;
 
     public User() {}
+
+    public User(String username, String password, String firstname, String surname) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.surname = surname;
+        roles = Collections.singleton(Role.USER);
+    }
 
     public boolean hasUserRole(){
         return roles.contains(Role.USER);
@@ -107,22 +121,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -139,11 +137,75 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+
     public List<ProductVersion> getWishList() {
         return wishList;
     }
 
     public void setWishList(List<ProductVersion> wishList) {
         this.wishList = wishList;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

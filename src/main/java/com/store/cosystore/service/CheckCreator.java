@@ -19,13 +19,13 @@ public class CheckCreator {
     private String filesPath;
 
     public File getFile(Order order) throws IOException, DocumentException {
-        File check = new File(filesPath + "check.pdf");
+        File check = new File("check.pdf");
         check.createNewFile();
         Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         PdfWriter.getInstance(document, new FileOutputStream(check));
 
         document.open();
-        BaseFont bf = BaseFont.createFont(filesPath + "arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        BaseFont bf = BaseFont.createFont("templates/files/arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         Font font = new Font(bf);
         document.add(new Paragraph("Заказ №" + order.getId(), font));
         document.add(new Paragraph(" "));

@@ -1,5 +1,20 @@
 $('#inputArticle').inputmask('999.999.99');
 $('#inputProductArticle').inputmask('999.999.99');
+$('input [type="email"]').inputmask("email");
+$('#email').inputmask("email");
+
+function myAlert(message, func){
+    var alert = $('<div id="my-alert-wrapper"><div id="my-alert">' +
+        '<div id="my-alert-message">' + message + '</div>' +
+        '<div id="my-alert-btn">Ок</div>' +
+        '</div></div>');
+    $('body').append(alert);
+    $('#my-alert-btn').click(function () {
+        alert.remove();
+        if(func === undefined) return;
+        func();
+    })
+}
 
 function validateProduct(act){
     var valid = true;
@@ -60,9 +75,11 @@ function validateProductVersion(act){
 }
 
 function saveProductRequest(act){
+    var article = $("#inputArticle").val();
     var product = {
         id : $("#productId").val(),
-        name : $("#inputName").val(),
+        name : $("#inputName").val().toLowerCase(),
+        versionName : $("#inputVersionName").val(),
         price : $("#inputPrice").val(),
         generalInf : $("#inputInformation").val(),
         description : $("#inputDescription").val(),
@@ -75,7 +92,7 @@ function saveProductRequest(act){
         productVersions : [
             {
                 id : $("#productVersionId").val(),
-                article : $("#inputArticle").val(),
+                article : article,
                 count : $("#inputCount").val(),
                 color : $("#inputColorName").val(),
                 versionName : !!$("#inputVersionName").val() ? $("#inputVersionName").val() : '',
@@ -121,12 +138,13 @@ function saveProductRequest(act){
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response){
-                    if(act == 'add'){
-                        document.location.href = 'product/' + response;
-                    } else if (act == 'edit'){
-                        alert("Изменения сохранены");
+                    if (act == 'edit'){
+                        myAlert("Изменения сохранены");
                     } else {
-                        alert("Товар добавлен в каталог");
+                        if(response == "Товар добавлен в каталог")
+                        myAlert(response, function () {
+                            document.location.href = 'product/editor?article=' + article;
+                        });
                     }
                 }
             });
@@ -161,7 +179,7 @@ function saveProductVersion(){
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response){
-                    alert("Товар добавлен в каталог");
+                    myAlert("Товар добавлен в каталог");
                     document.location.href = response;
                 }
             });
@@ -179,23 +197,20 @@ function saveProductVersion(){
 }
 
 function sendOrder(){
-    alert("Заказ принят. Чек отправлен вам на почту");
-    var orderPositions = [];
-    $(".cart-position").each(function () {
-        orderPositions.push({
-            id : { productVersion : $(this).find(".pv-id").val() },
-            count : $(this).find(".input-count").val()
-        })
-    });
+    if(!validateUserDataForm()) return;
+    $("#order-btn").html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>')
 
     var order = {
         cost : $("#sum-value").val(),
-        address : $("#inputAddress").val(),
-        email : $("#inputEmail").val(),
-        recipient : $("#inputRecipient").val(),
-        phoneNumber : $("#inputPhone").val(),
-        orderPositions : orderPositions
     };
+    var formData = new FormData($('#productForm').get(0));
+    formData.forEach(function(value, key){
+        order[key] = value;
+    });
+    order.address = 'г. ' + order.city + ', ул. ' + order.street + ', д.' + order.house;
+    if (order.apartment != '') order.address += ', кв. ' + order.apartment;
+    order.recipient = order.surname + ' ' + order.firstname;
+    if (order.patronymic != '') order.recipient += ' ' + order.patronymic;
 
     $.ajax({
         contentType: "application/json; charset=UTF-8",
@@ -206,12 +221,93 @@ function sendOrder(){
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        // success: function(response){
-        //     alert(response);
-        // }
+        success: function (response) {
+            myAlert(response, function () {
+                location.reload();
+            });
+        }
     });
 }
 
 
+function checkUserData(username, password) {
+    if(validateUserDataForm()){
+        var user = {};
+        var formData = new FormData($('#lk-data-form').get(0));
+        formData.forEach(function(value, key){
+            if (value != '')
+                user[key] = value;
+        });
 
+        $.ajax({
+            contentType: "application/json; charset=UTF-8",
+            url: '/lk',
+            data: JSON.stringify(user),
+            method: 'post',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+                myAlert("Данные изменены", function() {
+                    location.reload();
+                });
+            }
+        });
+    }
+}
 
+function validateUserDataForm(){
+    var message = 'Введите';
+    var valid = true;
+    if($('#surname').val() == ""){
+        $('#surname').css("border-color", "#d72828");
+        valid = false;
+        message += " фамилию,";
+    } else $('#surname').removeAttr('style');
+    if($('#firstname').val() == ""){
+        $('#firstname').css("border-color", "#d72828");
+        valid = false;
+        message += " имя,";
+    } else $('#firstname').removeAttr('style');
+    if($('#city').val() == ""){
+        $('#city').css("border-color", "#d72828");
+        valid = false;
+        message += " город,";
+    } else $('#city').removeAttr('style');
+    if($('#street').val() == ""){
+        $('#street').css("border-color", "#d72828");
+        valid = false;
+        message += " улицу,";
+    } else $('#street').removeAttr('style');
+    if($('#house').val() == ""){
+        $('#house').css("border-color", "#d72828");
+        valid = false;
+        message += " номер дома,";
+    } else $('#house').removeAttr('style');
+    if($('#email').val() == ""){
+        $('#email').css("border-color", "#d72828");
+        valid = false;
+        message += " email,";
+    } else $('#email').removeAttr('style');
+    if($('#phoneNumber').val() == ""){
+        $('#phoneNumber').css("border-color", "#d72828");
+        valid = false;
+        message += " номер телефона,";
+    } else $('#phoneNumber').removeAttr('style');
+
+    if(!valid)
+        myAlert(message.substring(0, message.length - 1));
+    return valid;
+}
+
+$('#password, #password-2').on('input', function() {
+    if($('#password').val() != $('#password-2').val()){
+        $('#password-2').css("border-color", "#d72828");
+        $('#password-2-tip').fadeIn('fast');
+        $('#register-btn').attr('disabled', 'disabled');
+    } else {
+        $('#password-2').removeAttr('style');
+        $('#password-2-tip').fadeOut('fast');
+        $('#register-btn').removeAttr('disabled');
+    }
+});

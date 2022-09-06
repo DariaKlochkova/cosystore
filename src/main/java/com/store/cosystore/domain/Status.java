@@ -6,9 +6,10 @@ public enum Status {
     NEW("В обработке", 0),
     COMPLETING("Комплектуется", 1),
     TRANSIT("В пути", 2),
-    READY("Готов к получению", 3),
+    DELIVERED("Доставлено", 3),
     COMPLETED("Выполнен", 4),
-    CANCELED("Отменён", 5);
+    CANCELED("Отменён", 5),
+    DENIED("Отказано", 6);
 
     private final String name;
     private final int code;

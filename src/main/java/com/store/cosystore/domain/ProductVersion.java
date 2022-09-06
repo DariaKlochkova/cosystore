@@ -14,6 +14,7 @@ public class ProductVersion {
     private String versionName;
     private int count;
     private Color color;
+    private int likes;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
@@ -55,6 +56,19 @@ public class ProductVersion {
         }
         ProductVersion productVersion = (ProductVersion)obj;
         return productVersion.getId() == id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    public void like(){
+        likes ++;
+    }
+
+    public void unlike(){
+        likes --;
     }
 
     public int getId() {
@@ -111,5 +125,13 @@ public class ProductVersion {
 
     public void setVersionName(String versionName) {
         this.versionName = versionName;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

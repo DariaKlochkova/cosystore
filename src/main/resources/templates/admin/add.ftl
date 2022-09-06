@@ -28,11 +28,15 @@
          <div class="row mb-4">
             <div class="col-2">
                <label for="inputArticle">Артикул</label>
-               <input type="text" name="article" id="inputArticle" class="form-control">
+               <input type="text" name="article" id="inputArticle" class="form-control" autocomplete="false">
             </div>
-            <div class="col-6">
+            <div class="col-3">
                <label for="inputName">Название</label>
-               <input type="text" name="name" id="inputName" class="form-control">
+               <input type="text" name="name" id="inputName" class="form-control" autocomplete="false">
+            </div>
+            <div class="col-3">
+               <label for="inputName">Версия</label>
+               <input type="text" name="versionName" id="inputVersionName" class="form-control" autocomplete="false">
             </div>
             <div class="col-2">
                <label for="inputPrice">Цена</label>
@@ -166,7 +170,6 @@
          </div>
 
          <div class="row justify-content-end">
-            <div class="btn btn-lg mr-3" id="btn-add-version" onclick="validateProduct('add')">Добавить версию</div>
             <div class="btn btn-lg mr-3" id="btn-add" onclick="validateProduct('save')">Сохранить</div>
          </div>
 

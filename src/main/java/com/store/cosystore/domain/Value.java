@@ -14,10 +14,16 @@ public class Value {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(name = "product_Id", insertable = false, updatable = false)
+    private int productId;
+
     @ManyToOne
     @MapsId("property_id")
     @JoinColumn(name = "property_id")
     private Property property;
+
+    @Column(name = "property_Id", insertable = false, updatable = false)
+    private int propertyId;
 
     private String value;
 
@@ -51,5 +57,21 @@ public class Value {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public int getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 }

@@ -20,6 +20,9 @@
                 <img src="/img/home.png" width="80px"/>
             </div>
         </div>
+        <#if error>
+            <p class="error">Неверный логин или пароль</p>
+        </#if>
         <p>
             <label for="username" class="sr-only">Логин</label>
             <input type="text" id="username" name="username" class="form-control login-input" placeholder="Логин" required autofocus>
@@ -31,6 +34,7 @@
         <p><input type='checkbox' name='remember-me'/> Запомнить меня</p>
         <input name="_csrf" type="hidden" value="${_csrf.token}" />
         <button class="btn btn-lg btn-block" type="submit">Войти</button>
+        <a href="/registration"><p class="register">Регистрация</p></a>
     </form>
 </div>
 </body></html>
